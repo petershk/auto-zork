@@ -1,0 +1,35 @@
+name: tests
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    name: tests (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    defaults:
+      run:
+        working-directory: maze
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+      - name: Install (python and dependencies come from the lockfile)
+        run: uv sync --locked
+      - name: Unit tests (no API keys or network needed)
+        run: uv run python -m unittest discover -s tests -t .
+      - name: Scripted perfect run reaches 350 points
+        run: uv run python autoplay.py
+
+  lint:
+    name: lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+      - name: Unused imports and undefined names
+        run: uvx ruff check --select F .

@@ -1,0 +1,20 @@
+[project]
+name = "maze"
+version = "0.1.0"
+description = "A Zork I adventure that AI agents play through MCP tools, with a web viewer."
+authors = [
+    { name = "Hermann Peterscheck", email = "petershk@yahoo.com" }
+]
+requires-python = ">=3.13"
+dependencies = [
+    "flask>=3.0.0",
+    "openai>=1.0.0",
+    "python-dotenv>=1.2.3",
+    "maze-mcp>=0.1.0"
+]
+
+[tool.uv]
+package = false
+
+[tool.uv.sources]
+maze-mcp = { path = "../maze_mcp" }

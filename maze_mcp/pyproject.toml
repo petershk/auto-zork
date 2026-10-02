@@ -1,0 +1,21 @@
+[project]
+name = "maze-mcp"
+version = "0.1.0"
+description = "Stdio MCP tools for the maze adventure HTTP service"
+readme = "README.md"
+authors = [
+    { name = "Hermann Peterscheck", email = "petershk@yahoo.com" }
+]
+requires-python = ">=3.13"
+dependencies = [
+    "mcp>=2.2.0,<3",
+    "httpx>=0.28,<1"
+]
+
+[project.scripts]
+maze-mcp = "maze_mcp:main"
+maze-mcp-client = "maze_mcp.client:main"
+
+[build-system]
+requires = ["uv_build>=0.12.18,<0.13.0"]
+build-backend = "uv_build"

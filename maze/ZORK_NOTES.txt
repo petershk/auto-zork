@@ -1,0 +1,72 @@
+Zork I adaptation: data sources and rules
+
+Source: https://github.com/historicalsource/zork1
+Room definitions: 1dungeon.zil (saved here as zork1_source.zil).
+Boat transitions: RIVER-LAUNCH table in 1actions.zil.
+The source and original static room descriptions are MIT licensed.
+See ZORK_LICENSE.txt for the required copyright and license notice.
+
+build_zork_map.py extracts 110 named rooms and the item definitions into
+zork_map.json. Rooms whose original descriptions depend on action routines have
+new prose written for this adaptation. Static LDESC descriptions come from the source.
+
+This is a playable adaptation, not a complete Zork interpreter. The puzzle,
+combat, hint and endgame rules are described in PUZZLES.md. The world rules:
+- Puzzle gates are closed until solved; permanently forbidden exits stay forbidden.
+  Maze(puzzles=False) is a navigation mode in which every gate is open and the goal
+  is the Treasure Room.
+- Procedural movement uses fixed destinations from the original routines.
+- "launch" follows boat-launch routes with a boat supplied automatically.
+- Items use original placements and descriptions. Hidden objects stay hidden until
+  the puzzle that reveals them is solved.
+- Take, drop, examine/read, inventory, open/close, put and the room interactions
+  listed by look.allowed_actions are supported.
+- Item SIZE (default 5) and CAPACITY (default 0) values come from the source.
+- Maximum carrying load is 100 units, including all nested contents.
+- As in ITAKE, above seven directly carried items, additional pickups can fumble.
+  The roll uses FUMBLE-PROB 8 and the current directly carried item count;
+  containers reduce loose item count but do not reduce total weight.
+- Containers and their containing ancestors must have room for a deposited item.
+- Explicit commands, including LOOK, INVENTORY, EXAMINE, and failed physical
+  attempts, consume one turn. Browser polling, SCORE and HINT are free. RESET
+  restarts the world and clears turns, scores, inventory, flags and container changes.
+- First visits award room VALUE; first pickups award object VALUE once.
+  Treasures currently in the trophy case add TVALUE; removing them removes that
+  storage score. Nested treasures are included in trophy-case scoring here.
+- The original score ceiling and rank thresholds are retained: 350 points, all of
+  which are obtainable (the mine's 13-point bonus is adapted to lowering the
+  lantern in the basket, since light is not simulated).
+- Troll combat uses the original melee tables with random rolls. The player can be
+  wounded, knocked out or killed; death ends the game until a save is restored or
+  the world is reset.
+- The temple is a one-way pocket: the dome rope only goes down, and the way out is the altar stairs.
+  The coffin is too big for them (as in the original), so it leaves by praying at the altar.
+- Not implemented: darkness, boat inflation, the original parser, and item theft
+  by the thief.
+- The starting room is West of House. Reaching 350 points reveals the ancient map;
+  going in through the stone door at the Stone Barrow ends the adventure with the original closing text.
+- Directed, vertical, diagonal, self-loop, and one-way passages are preserved.
+
+The browser draws the rooms as a schematic. Up and down passages move a room to a
+separate band (Above ground, Ground level, Underground, ...); inside a band rooms
+are placed from their compass exits and spread out so they do not overlap. Positions
+are only a drawing aid: the direction-labelled arrows and exit lists define the real
+connections. The full map is for the human viewer. MCP look returns only the current room.
+
+Run from the maze folder (the browser opens automatically; set MAZE_NO_BROWSER=1 to stop that):
+  uv run python web_app.py
+Regenerate the room data from the saved source:
+  uv run python build_zork_map.py
+Checks (no model requests):
+  uv run python -m unittest discover -s tests -t .
+Perfect scripted run (350 points, adventure complete), headless:
+  uv run python autoplay.py
+Rebuild that script after changing the map or rules (the tests fail if it is stale):
+  uv run python make_walkthrough.py
+
+Rule references:
+  gglobals.zil: LOAD-MAX / LOAD-ALLOWED
+  gverbs.zil: ITAKE, WEIGHT, V-PUT, SCORE-OBJ
+  zork1.zil: default SIZE / CAPACITY / VALUE / TVALUE
+  1actions.zil: V-SCORE ranks, trophy-case scoring, MELEE and TROLL-FCN
+  gmain.zil and gclock.zil: turn counting

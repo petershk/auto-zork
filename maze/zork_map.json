@@ -1,0 +1,3211 @@
+{
+  "title": "Zork I navigation maze",
+  "start": "WEST-OF-HOUSE",
+  "goal": "STONE-BARROW",
+  "source": "https://github.com/historicalsource/zork1/blob/master/1dungeon.zil",
+  "boat_source": "https://github.com/historicalsource/zork1/blob/master/1actions.zil#L2597",
+  "license": "ZORK_LICENSE.txt",
+  "adaptation": "Stateful puzzle adaptation. Deterministic encounters; no darkness, death, random theft, or boat inflation. Original carrying/treasure points; 13-point shaft bonus adapted to lowering the lantern. Collect treasures; discover the final route through the map at 350 points. See PUZZLES.md.",
+  "rules_sources": [
+    "https://github.com/historicalsource/zork1/blob/master/gverbs.zil",
+    "https://github.com/historicalsource/zork1/blob/master/gglobals.zil",
+    "https://github.com/historicalsource/zork1/blob/master/zork1.zil"
+  ],
+  "rooms": {
+    "WEST-OF-HOUSE": {
+      "name": "West of House",
+      "description": "A white house stands at the edge of an open field. Its front door is boarded shut. Forest paths lead around the building, and a stone barrow lies farther away.",
+      "area": "Forest And Outside Of House",
+      "exits": {
+        "north": "NORTH-OF-HOUSE",
+        "south": "SOUTH-OF-HOUSE",
+        "northeast": "NORTH-OF-HOUSE",
+        "southeast": "SOUTH-OF-HOUSE",
+        "west": "FOREST-1",
+        "southwest": "STONE-BARROW",
+        "in": "STONE-BARROW"
+      },
+      "conditions": {
+        "southwest": "WON-FLAG",
+        "in": "WON-FLAG"
+      },
+      "discovery_points": 0
+    },
+    "STONE-BARROW": {
+      "name": "Stone Barrow",
+      "description": "You are standing in front of a massive barrow of stone. In the east face is a huge stone door which is open. You cannot see into the dark of the tomb.",
+      "area": "Forest And Outside Of House",
+      "exits": {
+        "northeast": "WEST-OF-HOUSE"
+      },
+      "conditions": {},
+      "discovery_points": 0
+    },
+    "NORTH-OF-HOUSE": {
+      "name": "North of House",
+      "description": "You are facing the north side of a white house. There is no door here, and all the windows are boarded up. To the north a narrow path winds through the trees.",
+      "area": "Forest And Outside Of House",
+      "exits": {
+        "southwest": "WEST-OF-HOUSE",
+        "southeast": "EAST-OF-HOUSE",
+        "west": "WEST-OF-HOUSE",
+        "east": "EAST-OF-HOUSE",
+        "north": "PATH"
+      },
+      "conditions": {},
+      "discovery_points": 0
+    },
+    "SOUTH-OF-HOUSE": {
+      "name": "South of House",
+      "description": "You are facing the south side of a white house. There is no door here, and all the windows are boarded.",
+      "area": "Forest And Outside Of House",
+      "exits": {
+        "west": "WEST-OF-HOUSE",
+        "east": "EAST-OF-HOUSE",
+        "northeast": "EAST-OF-HOUSE",
+        "northwest": "WEST-OF-HOUSE",
+        "south": "FOREST-3"
+      },
+      "conditions": {},
+      "discovery_points": 0
+    },
+    "EAST-OF-HOUSE": {
+      "name": "Behind House",
+      "description": "You stand behind the white house. An open kitchen window offers a way inside; woodland surrounds the yard.",
+      "area": "Forest And Outside Of House",
+      "exits": {
+        "north": "NORTH-OF-HOUSE",
+        "south": "SOUTH-OF-HOUSE",
+        "southwest": "SOUTH-OF-HOUSE",
+        "northwest": "NORTH-OF-HOUSE",
+        "east": "CLEARING",
+        "west": "KITCHEN",
+        "in": "KITCHEN"
+      },
+      "conditions": {
+        "west": "KITCHEN-WINDOW",
+        "in": "KITCHEN-WINDOW"
+      },
+      "discovery_points": 0
+    },
+    "FOREST-1": {
+      "name": "Forest",
+      "description": "This is a forest, with trees in all directions. To the east, there appears to be sunlight.",
+      "area": "Forest And Outside Of House",
+      "exits": {
+        "north": "GRATING-CLEARING",
+        "east": "PATH",
+        "south": "FOREST-3"
+      },
+      "conditions": {},
+      "discovery_points": 0
+    },
+    "FOREST-2": {
+      "name": "Forest",
+      "description": "This is a dimly lit forest, with large trees all around.",
+      "area": "Forest And Outside Of House",
+      "exits": {
+        "east": "MOUNTAINS",
+        "south": "CLEARING",
+        "west": "PATH"
+      },
+      "conditions": {},
+      "discovery_points": 0
+    },
+    "MOUNTAINS": {
+      "name": "Forest",
+      "description": "The forest thins out, revealing impassable mountains.",
+      "area": "Forest And Outside Of House",
+      "exits": {
+        "north": "FOREST-2",
+        "south": "FOREST-2",
+        "west": "FOREST-2"
+      },
+      "conditions": {},
+      "discovery_points": 0
+    },
+    "FOREST-3": {
+      "name": "Forest",
+      "description": "This is a dimly lit forest, with large trees all around.",
+      "area": "Forest And Outside Of House",
+      "exits": {
+        "north": "CLEARING",
+        "west": "FOREST-1",
+        "northwest": "SOUTH-OF-HOUSE"
+      },
+      "conditions": {},
+      "discovery_points": 0
+    },
+    "PATH": {
+      "name": "Forest Path",
+      "description": "This is a path winding through a dimly lit forest. The path heads north-south here. One particularly large tree with some low branches stands at the edge of the path.",
+      "area": "Forest And Outside Of House",
+      "exits": {
+        "up": "UP-A-TREE",
+        "north": "GRATING-CLEARING",
+        "east": "FOREST-2",
+        "south": "NORTH-OF-HOUSE",
+        "west": "FOREST-1"
+      },
+      "conditions": {},
+      "discovery_points": 0
+    },
+    "UP-A-TREE": {
+      "name": "Up a Tree",
+      "description": "A sturdy branch supports you above the forest path. A bird's nest rests nearby, and the house can be glimpsed through the leaves.",
+      "area": "Forest And Outside Of House",
+      "exits": {
+        "down": "PATH"
+      },
+      "conditions": {},
+      "discovery_points": 0
+    },
+    "GRATING-CLEARING": {
+      "name": "Clearing",
+      "description": "Sunlight reaches a small clearing between tall trees. An uncovered, open grating leads down into the underground maze.",
+      "area": "Forest And Outside Of House",
+      "exits": {
+        "east": "FOREST-2",
+        "west": "FOREST-1",
+        "south": "PATH",
+        "down": "GRATING-ROOM"
+      },
+      "conditions": {},
+      "discovery_points": 0
+    },
+    "CLEARING": {
+      "name": "Clearing",
+      "description": "You are in a small clearing in a well marked forest path that extends to the east and west.",
+      "area": "Forest And Outside Of House",
+      "exits": {
+        "east": "CANYON-VIEW",
+        "north": "FOREST-2",
+        "south": "FOREST-3",
+        "west": "EAST-OF-HOUSE"
+      },
+      "conditions": {},
+      "discovery_points": 0
+    },
+    "KITCHEN": {
+      "name": "Kitchen",
+      "description": "Light falls through an open window onto a worn kitchen table. A doorway leads to the living room, and stairs rise toward the attic.",
+      "area": "House",
+      "exits": {
+        "east": "EAST-OF-HOUSE",
+        "west": "LIVING-ROOM",
+        "out": "EAST-OF-HOUSE",
+        "up": "ATTIC"
+      },
+      "conditions": {
+        "east": "KITCHEN-WINDOW",
+        "out": "KITCHEN-WINDOW"
+      },
+      "discovery_points": 10
+    },
+    "ATTIC": {
+      "name": "Attic",
+      "description": "This is the attic. The only exit is a stairway leading down.",
+      "area": "House",
+      "exits": {
+        "down": "KITCHEN"
+      },
+      "conditions": {},
+      "discovery_points": 0
+    },
+    "LIVING-ROOM": {
+      "name": "Living Room",
+      "description": "A trophy case and a large rug furnish the living room. The trapdoor beneath the rug is open, revealing stairs into the cellar. A western passage is open for this exploration.",
+      "area": "House",
+      "exits": {
+        "east": "KITCHEN",
+        "west": "STRANGE-PASSAGE",
+        "down": "CELLAR"
+      },
+      "conditions": {
+        "west": "MAGIC-FLAG"
+      },
+      "discovery_points": 0
+    },
+    "CELLAR": {
+      "name": "Cellar",
+      "description": "Cool air settles in a rough stone cellar beneath the house. Stairs lead back up; passages continue into the underground tunnels.",
+      "area": "Cellar And Vicinity",
+      "exits": {
+        "north": "TROLL-ROOM",
+        "south": "EAST-OF-CHASM",
+        "up": "LIVING-ROOM"
+      },
+      "conditions": {
+        "up": "TRAP-DOOR"
+      },
+      "discovery_points": 25
+    },
+    "TROLL-ROOM": {
+      "name": "The Troll Room",
+      "description": "This is a small room with passages to the east and south and a forbidding hole leading west. Bloodstains and deep scratches (perhaps made by an axe) mar the walls.",
+      "area": "Cellar And Vicinity",
+      "exits": {
+        "south": "CELLAR",
+        "east": "EW-PASSAGE",
+        "west": "MAZE-1"
+      },
+      "conditions": {
+        "east": "TROLL-FLAG",
+        "west": "TROLL-FLAG"
+      },
+      "discovery_points": 0
+    },
+    "EAST-OF-CHASM": {
+      "name": "East of Chasm",
+      "description": "You are on the east edge of a chasm, the bottom of which cannot be seen. A narrow passage goes north, and the path you are on continues to the east.",
+      "area": "Cellar And Vicinity",
+      "exits": {
+        "north": "CELLAR",
+        "east": "GALLERY"
+      },
+      "conditions": {},
+      "discovery_points": 0
+    },
+    "GALLERY": {
+      "name": "Gallery",
+      "description": "This is an art gallery. Most of the paintings have been stolen by vandals with exceptional taste. The vandals left through either the north or west exits.",
+      "area": "Cellar And Vicinity",
+      "exits": {
+        "west": "EAST-OF-CHASM",
+        "north": "STUDIO"
+      },
+      "conditions": {},
+      "discovery_points": 0
+    },
+    "STUDIO": {
+      "name": "Studio",
+      "description": "This appears to have been an artist's studio. The walls and floors are splattered with paints of 69 different colors. Strangely enough, nothing of value is hanging here. At the south end of the room is an open door (also covered with paint). A dark and narrow chimney leads up from a fireplace; although you might be able to get up it, it seems unlikely you could get back down.",
+      "area": "Cellar And Vicinity",
+      "exits": {
+        "south": "GALLERY",
+        "up": "KITCHEN"
+      },
+      "conditions": {},
+      "discovery_points": 0
+    },
+    "MAZE-1": {
+      "name": "Maze",
+      "description": "This is part of a maze of twisty little passages, all alike.",
+      "area": "Maze",
+      "exits": {
+        "east": "TROLL-ROOM",
+        "north": "MAZE-1",
+        "south": "MAZE-2",
+        "west": "MAZE-4"
+      },
+      "conditions": {},
+      "discovery_points": 0
+    },
+    "MAZE-2": {
+      "name": "Maze",
+      "description": "This is part of a maze of twisty little passages, all alike.",
+      "area": "Maze",
+      "exits": {
+        "south": "MAZE-1",
+        "east": "MAZE-3",
+        "down": "MAZE-4"
+      },
+      "conditions": {},
+      "discovery_points": 0
+    },
+    "MAZE-3": {
+      "name": "Maze",
+      "description": "This is part of a maze of twisty little passages, all alike.",
+      "area": "Maze",
+      "exits": {
+        "west": "MAZE-2",
+        "north": "MAZE-4",
+        "up": "MAZE-5"
+      },
+      "conditions": {},
+      "discovery_points": 0
+    },
+    "MAZE-4": {
+      "name": "Maze",
+      "description": "This is part of a maze of twisty little passages, all alike.",
+      "area": "Maze",
+      "exits": {
+        "west": "MAZE-3",
+        "north": "MAZE-1",
+        "east": "DEAD-END-1"
+      },
+      "conditions": {},
+      "discovery_points": 0
+    },
+    "DEAD-END-1": {
+      "name": "Dead End",
+      "description": "You have come to a dead end in the maze.",
+      "area": "Maze",
+      "exits": {
+        "south": "MAZE-4"
+      },
+      "conditions": {},
+      "discovery_points": 0
+    },
+    "MAZE-5": {
+      "name": "Maze",
+      "description": "This is part of a maze of twisty little passages, all alike. A skeleton, probably the remains of a luckless adventurer, lies here.",
+      "area": "Maze",
+      "exits": {
+        "east": "DEAD-END-2",
+        "north": "MAZE-3",
+        "southwest": "MAZE-6"
+      },
+      "conditions": {},
+      "discovery_points": 0
+    },
+    "DEAD-END-2": {
+      "name": "Dead End",
+      "description": "You have come to a dead end in the maze.",
+      "area": "Maze",
+      "exits": {
+        "west": "MAZE-5"
+      },
+      "conditions": {},
+      "discovery_points": 0
+    },
+    "MAZE-6": {
+      "name": "Maze",
+      "description": "This is part of a maze of twisty little passages, all alike.",
+      "area": "Maze",
+      "exits": {
+        "down": "MAZE-5",
+        "east": "MAZE-7",
+        "west": "MAZE-6",
+        "up": "MAZE-9"
+      },
+      "conditions": {},
+      "discovery_points": 0
+    },
+    "MAZE-7": {
+      "name": "Maze",
+      "description": "This is part of a maze of twisty little passages, all alike.",
+      "area": "Maze",
+      "exits": {
+        "up": "MAZE-14",
+        "west": "MAZE-6",
+        "east": "MAZE-8",
+        "south": "MAZE-15",
+        "down": "DEAD-END-1"
+      },
+      "conditions": {},
+      "discovery_points": 0
+    },
+    "MAZE-8": {
+      "name": "Maze",
+      "description": "This is part of a maze of twisty little passages, all alike.",
+      "area": "Maze",
+      "exits": {
+        "northeast": "MAZE-7",
+        "west": "MAZE-8",
+        "southeast": "DEAD-END-3"
+      },
+      "conditions": {},
+      "discovery_points": 0
+    },
+    "DEAD-END-3": {
+      "name": "Dead End",
+      "description": "You have come to a dead end in the maze.",
+      "area": "Maze",
+      "exits": {
+        "north": "MAZE-8"
+      },
+      "conditions": {},
+      "discovery_points": 0
+    },
+    "MAZE-9": {
+      "name": "Maze",
+      "description": "This is part of a maze of twisty little passages, all alike.",
+      "area": "Maze",
+      "exits": {
+        "north": "MAZE-6",
+        "east": "MAZE-10",
+        "south": "MAZE-13",
+        "west": "MAZE-12",
+        "northwest": "MAZE-9",
+        "down": "MAZE-11"
+      },
+      "conditions": {},
+      "discovery_points": 0
+    },
+    "MAZE-10": {
+      "name": "Maze",
+      "description": "This is part of a maze of twisty little passages, all alike.",
+      "area": "Maze",
+      "exits": {
+        "east": "MAZE-9",
+        "west": "MAZE-13",
+        "up": "MAZE-11"
+      },
+      "conditions": {},
+      "discovery_points": 0
+    },
+    "MAZE-11": {
+      "name": "Maze",
+      "description": "This is part of a maze of twisty little passages, all alike.",
+      "area": "Maze",
+      "exits": {
+        "northeast": "GRATING-ROOM",
+        "down": "MAZE-10",
+        "northwest": "MAZE-13",
+        "southwest": "MAZE-12"
+      },
+      "conditions": {},
+      "discovery_points": 0
+    },
+    "GRATING-ROOM": {
+      "name": "Grating Room",
+      "description": "Tree roots wind through the ceiling of a low chamber. An open metal grating admits daylight from the clearing overhead.",
+      "area": "Maze",
+      "exits": {
+        "southwest": "MAZE-11",
+        "up": "GRATING-CLEARING"
+      },
+      "conditions": {
+        "up": "GRATE"
+      },
+      "discovery_points": 0
+    },
+    "MAZE-12": {
+      "name": "Maze",
+      "description": "This is part of a maze of twisty little passages, all alike.",
+      "area": "Maze",
+      "exits": {
+        "southwest": "MAZE-11",
+        "east": "MAZE-13",
+        "up": "MAZE-9",
+        "north": "DEAD-END-4",
+        "down": "MAZE-5"
+      },
+      "conditions": {},
+      "discovery_points": 0
+    },
+    "DEAD-END-4": {
+      "name": "Dead End",
+      "description": "You have come to a dead end in the maze.",
+      "area": "Maze",
+      "exits": {
+        "south": "MAZE-12"
+      },
+      "conditions": {},
+      "discovery_points": 0
+    },
+    "MAZE-13": {
+      "name": "Maze",
+      "description": "This is part of a maze of twisty little passages, all alike.",
+      "area": "Maze",
+      "exits": {
+        "east": "MAZE-9",
+        "down": "MAZE-12",
+        "south": "MAZE-10",
+        "west": "MAZE-11"
+      },
+      "conditions": {},
+      "discovery_points": 0
+    },
+    "MAZE-14": {
+      "name": "Maze",
+      "description": "This is part of a maze of twisty little passages, all alike.",
+      "area": "Maze",
+      "exits": {
+        "west": "MAZE-15",
+        "northwest": "MAZE-14",
+        "northeast": "MAZE-7",
+        "south": "MAZE-7"
+      },
+      "conditions": {},
+      "discovery_points": 0
+    },
+    "MAZE-15": {
+      "name": "Maze",
+      "description": "This is part of a maze of twisty little passages, all alike.",
+      "area": "Maze",
+      "exits": {
+        "west": "MAZE-14",
+        "south": "MAZE-7",
+        "southeast": "CYCLOPS-ROOM"
+      },
+      "conditions": {},
+      "discovery_points": 0
+    },
+    "CYCLOPS-ROOM": {
+      "name": "Cyclops Room",
+      "description": "A cavernous room bears the marks of an enormous inhabitant. The passages and staircase are unguarded in this navigation version.",
+      "area": "Cyclops And Hideaway",
+      "exits": {
+        "northwest": "MAZE-15",
+        "east": "STRANGE-PASSAGE",
+        "up": "TREASURE-ROOM"
+      },
+      "conditions": {
+        "east": "MAGIC-FLAG",
+        "up": "CYCLOPS-FLAG"
+      },
+      "discovery_points": 0
+    },
+    "STRANGE-PASSAGE": {
+      "name": "Strange Passage",
+      "description": "This is a long passage. To the west is one entrance. On the east there is an old wooden door, with a large opening in it (about cyclops sized).",
+      "area": "Cyclops And Hideaway",
+      "exits": {
+        "west": "CYCLOPS-ROOM",
+        "in": "CYCLOPS-ROOM",
+        "east": "LIVING-ROOM"
+      },
+      "conditions": {},
+      "discovery_points": 0
+    },
+    "TREASURE-ROOM": {
+      "name": "Treasure Room",
+      "description": "This is a large room, whose east wall is solid granite. A number of discarded bags, which crumble at your touch, are scattered about on the floor. There is an exit down a staircase.",
+      "area": "Cyclops And Hideaway",
+      "exits": {
+        "down": "CYCLOPS-ROOM"
+      },
+      "conditions": {},
+      "discovery_points": 25
+    },
+    "RESERVOIR-SOUTH": {
+      "name": "Reservoir South",
+      "description": "You stand on the southern edge of a vast underground reservoir. A dam holds back the water, while an exposed crossing leads north.",
+      "area": "Reservoir Area",
+      "exits": {
+        "southeast": "DEEP-CANYON",
+        "southwest": "CHASM-ROOM",
+        "east": "DAM-ROOM",
+        "west": "STREAM-VIEW",
+        "north": "RESERVOIR",
+        "launch": "RESERVOIR"
+      },
+      "conditions": {
+        "north": "LOW-TIDE"
+      },
+      "discovery_points": 0
+    },
+    "RESERVOIR": {
+      "name": "Reservoir",
+      "description": "The reservoir floor stretches between steep rocky banks. Water has receded enough to expose routes toward either shore and the stream.",
+      "area": "Reservoir Area",
+      "exits": {
+        "north": "RESERVOIR-NORTH",
+        "south": "RESERVOIR-SOUTH",
+        "up": "IN-STREAM",
+        "west": "IN-STREAM"
+      },
+      "conditions": {},
+      "discovery_points": 0
+    },
+    "RESERVOIR-NORTH": {
+      "name": "Reservoir North",
+      "description": "On the reservoir's northern bank, damp rock shelves overlook the drained basin. A passage leads deeper into the ancient underground complex.",
+      "area": "Reservoir Area",
+      "exits": {
+        "north": "ATLANTIS-ROOM",
+        "south": "RESERVOIR",
+        "launch": "RESERVOIR"
+      },
+      "conditions": {
+        "south": "LOW-TIDE"
+      },
+      "discovery_points": 0
+    },
+    "STREAM-VIEW": {
+      "name": "Stream View",
+      "description": "You are standing on a path beside a gently flowing stream. The path follows the stream, which flows from west to east.",
+      "area": "Reservoir Area",
+      "exits": {
+        "east": "RESERVOIR-SOUTH",
+        "launch": "IN-STREAM"
+      },
+      "conditions": {},
+      "discovery_points": 0
+    },
+    "IN-STREAM": {
+      "name": "Stream",
+      "description": "You are on the gently flowing stream. The upstream route is too narrow to navigate, and the downstream route is invisible due to twisting walls. There is a narrow beach to land on.",
+      "area": "Reservoir Area",
+      "exits": {
+        "land": "STREAM-VIEW",
+        "down": "RESERVOIR",
+        "east": "RESERVOIR"
+      },
+      "conditions": {},
+      "discovery_points": 0
+    },
+    "MIRROR-ROOM-1": {
+      "name": "Mirror Room",
+      "description": "A tall mirror catches the dim light of a cold stone chamber. Narrow passages disappear around its edges.",
+      "area": "Mirror Rooms And Vicinity",
+      "exits": {
+        "north": "COLD-PASSAGE",
+        "west": "TWISTING-PASSAGE",
+        "east": "SMALL-CAVE"
+      },
+      "conditions": {},
+      "discovery_points": 0
+    },
+    "MIRROR-ROOM-2": {
+      "name": "Mirror Room",
+      "description": "A great mirror dominates this chamber, doubling its stone walls and shadowy passage entrances.",
+      "area": "Mirror Rooms And Vicinity",
+      "exits": {
+        "west": "WINDING-PASSAGE",
+        "north": "NARROW-PASSAGE",
+        "east": "TINY-CAVE"
+      },
+      "conditions": {},
+      "discovery_points": 0
+    },
+    "SMALL-CAVE": {
+      "name": "Cave",
+      "description": "This is a tiny cave with entrances west and north, and a staircase leading down.",
+      "area": "Mirror Rooms And Vicinity",
+      "exits": {
+        "north": "MIRROR-ROOM-1",
+        "down": "ATLANTIS-ROOM",
+        "south": "ATLANTIS-ROOM",
+        "west": "TWISTING-PASSAGE"
+      },
+      "conditions": {},
+      "discovery_points": 0
+    },
+    "TINY-CAVE": {
+      "name": "Cave",
+      "description": "This is a tiny cave with entrances west and north, and a dark, forbidding staircase leading down.",
+      "area": "Mirror Rooms And Vicinity",
+      "exits": {
+        "north": "MIRROR-ROOM-2",
+        "west": "WINDING-PASSAGE",
+        "down": "ENTRANCE-TO-HADES"
+      },
+      "conditions": {},
+      "discovery_points": 0
+    },
+    "COLD-PASSAGE": {
+      "name": "Cold Passage",
+      "description": "This is a cold and damp corridor where a long east-west passageway turns into a southward path.",
+      "area": "Mirror Rooms And Vicinity",
+      "exits": {
+        "south": "MIRROR-ROOM-1",
+        "west": "SLIDE-ROOM"
+      },
+      "conditions": {},
+      "discovery_points": 0
+    },
+    "NARROW-PASSAGE": {
+      "name": "Narrow Passage",
+      "description": "This is a long and narrow corridor where a long north-south passageway briefly narrows even further.",
+      "area": "Mirror Rooms And Vicinity",
+      "exits": {
+        "north": "ROUND-ROOM",
+        "south": "MIRROR-ROOM-2"
+      },
+      "conditions": {},
+      "discovery_points": 0
+    },
+    "WINDING-PASSAGE": {
+      "name": "Winding Passage",
+      "description": "This is a winding passage. It seems that there are only exits on the east and north.",
+      "area": "Mirror Rooms And Vicinity",
+      "exits": {
+        "north": "MIRROR-ROOM-2",
+        "east": "TINY-CAVE"
+      },
+      "conditions": {},
+      "discovery_points": 0
+    },
+    "TWISTING-PASSAGE": {
+      "name": "Twisting Passage",
+      "description": "This is a winding passage. It seems that there are only exits on the east and north.",
+      "area": "Mirror Rooms And Vicinity",
+      "exits": {
+        "north": "MIRROR-ROOM-1",
+        "east": "SMALL-CAVE"
+      },
+      "conditions": {},
+      "discovery_points": 0
+    },
+    "ATLANTIS-ROOM": {
+      "name": "Atlantis Room",
+      "description": "This is an ancient room, long under water. There is an exit to the south and a staircase leading up.",
+      "area": "Mirror Rooms And Vicinity",
+      "exits": {
+        "up": "SMALL-CAVE",
+        "south": "RESERVOIR-NORTH"
+      },
+      "conditions": {},
+      "discovery_points": 0
+    },
+    "EW-PASSAGE": {
+      "name": "East-West Passage",
+      "description": "This is a narrow east-west passageway. There is a narrow stairway leading down at the north end of the room.",
+      "area": "Round Room And Vicinity",
+      "exits": {
+        "east": "ROUND-ROOM",
+        "west": "TROLL-ROOM",
+        "down": "CHASM-ROOM",
+        "north": "CHASM-ROOM"
+      },
+      "conditions": {},
+      "discovery_points": 5
+    },
+    "ROUND-ROOM": {
+      "name": "Round Room",
+      "description": "This is a circular stone room with passages in all directions. Several of them have unfortunately been blocked by cave-ins.",
+      "area": "Round Room And Vicinity",
+      "exits": {
+        "east": "LOUD-ROOM",
+        "west": "EW-PASSAGE",
+        "north": "NS-PASSAGE",
+        "south": "NARROW-PASSAGE",
+        "southeast": "ENGRAVINGS-CAVE"
+      },
+      "conditions": {},
+      "discovery_points": 0
+    },
+    "DEEP-CANYON": {
+      "name": "Deep Canyon",
+      "description": "A deep canyon divides the underground rock. Narrow trails follow the edge, and the distant sound of water rises from below.",
+      "area": "Round Room And Vicinity",
+      "exits": {
+        "northwest": "RESERVOIR-SOUTH",
+        "east": "DAM-ROOM",
+        "southwest": "NS-PASSAGE",
+        "down": "LOUD-ROOM"
+      },
+      "conditions": {},
+      "discovery_points": 0
+    },
+    "DAMP-CAVE": {
+      "name": "Damp Cave",
+      "description": "This cave has exits to the west and east, and narrows to a crack toward the south. The earth is particularly damp here.",
+      "area": "Round Room And Vicinity",
+      "exits": {
+        "west": "LOUD-ROOM",
+        "east": "WHITE-CLIFFS-NORTH"
+      },
+      "conditions": {},
+      "discovery_points": 0
+    },
+    "LOUD-ROOM": {
+      "name": "Loud Room",
+      "description": "The thunder of falling water fills a broad chamber. The noise makes every footstep vanish beneath it; the routes remain safe to explore.",
+      "area": "Round Room And Vicinity",
+      "exits": {
+        "east": "DAMP-CAVE",
+        "west": "ROUND-ROOM",
+        "up": "DEEP-CANYON"
+      },
+      "conditions": {},
+      "discovery_points": 0
+    },
+    "NS-PASSAGE": {
+      "name": "North-South Passage",
+      "description": "This is a high north-south passage, which forks to the northeast.",
+      "area": "Round Room And Vicinity",
+      "exits": {
+        "north": "CHASM-ROOM",
+        "northeast": "DEEP-CANYON",
+        "south": "ROUND-ROOM"
+      },
+      "conditions": {},
+      "discovery_points": 0
+    },
+    "CHASM-ROOM": {
+      "name": "Chasm",
+      "description": "A chasm runs southwest to northeast and the path follows it. You are on the south side of the chasm, where a crack opens into a passage.",
+      "area": "Round Room And Vicinity",
+      "exits": {
+        "northeast": "RESERVOIR-SOUTH",
+        "southwest": "EW-PASSAGE",
+        "up": "EW-PASSAGE",
+        "south": "NS-PASSAGE"
+      },
+      "conditions": {},
+      "discovery_points": 0
+    },
+    "ENTRANCE-TO-HADES": {
+      "name": "Entrance to Hades",
+      "description": "A sinister gateway opens beneath the earth. Cold air drifts out of the passage to the Land of the Dead; its supernatural barrier is absent here.",
+      "area": "Hades Et Al",
+      "exits": {
+        "up": "TINY-CAVE",
+        "in": "LAND-OF-LIVING-DEAD",
+        "south": "LAND-OF-LIVING-DEAD"
+      },
+      "conditions": {
+        "in": "LLD-FLAG",
+        "south": "LLD-FLAG"
+      },
+      "discovery_points": 0
+    },
+    "LAND-OF-LIVING-DEAD": {
+      "name": "Land of the Dead",
+      "description": "You have entered the Land of the Living Dead. Thousands of lost souls can be heard weeping and moaning. In the corner are stacked the remains of dozens of previous adventurers less fortunate than yourself. A passage exits to the north.",
+      "area": "Hades Et Al",
+      "exits": {
+        "out": "ENTRANCE-TO-HADES",
+        "north": "ENTRANCE-TO-HADES"
+      },
+      "conditions": {},
+      "discovery_points": 0
+    },
+    "ENGRAVINGS-CAVE": {
+      "name": "Engravings Cave",
+      "description": "You have entered a low cave with passages leading northwest and east.",
+      "area": "Dome, Temple, Egypt",
+      "exits": {
+        "northwest": "ROUND-ROOM",
+        "east": "DOME-ROOM"
+      },
+      "conditions": {},
+      "discovery_points": 0
+    },
+    "EGYPT-ROOM": {
+      "name": "Egyptian Room",
+      "description": "This is a room which looks like an Egyptian tomb. There is an ascending staircase to the west.",
+      "area": "Dome, Temple, Egypt",
+      "exits": {
+        "west": "NORTH-TEMPLE",
+        "up": "NORTH-TEMPLE"
+      },
+      "conditions": {},
+      "discovery_points": 0
+    },
+    "DOME-ROOM": {
+      "name": "Dome Room",
+      "description": "You stand near the top of a soaring stone dome. A secured descent leads down toward the torch room.",
+      "area": "Dome, Temple, Egypt",
+      "exits": {
+        "west": "ENGRAVINGS-CAVE",
+        "down": "TORCH-ROOM"
+      },
+      "conditions": {
+        "down": "DOME-FLAG"
+      },
+      "discovery_points": 0
+    },
+    "TORCH-ROOM": {
+      "name": "Torch Room",
+      "description": "A marble pedestal stands beneath a lofty stone dome. An ivory torch illuminates the chamber and the passages beyond.",
+      "area": "Dome, Temple, Egypt",
+      "exits": {
+        "south": "NORTH-TEMPLE",
+        "down": "NORTH-TEMPLE"
+      },
+      "conditions": {},
+      "discovery_points": 0
+    },
+    "NORTH-TEMPLE": {
+      "name": "Temple",
+      "description": "This is the north end of a large temple. On the east wall is an ancient inscription, probably a prayer in a long-forgotten language. Below the prayer is a staircase leading down. The west wall is solid granite. The exit to the north end of the room is through huge marble pillars.",
+      "area": "Dome, Temple, Egypt",
+      "exits": {
+        "down": "EGYPT-ROOM",
+        "east": "EGYPT-ROOM",
+        "north": "TORCH-ROOM",
+        "out": "TORCH-ROOM",
+        "up": "TORCH-ROOM",
+        "south": "SOUTH-TEMPLE"
+      },
+      "conditions": {},
+      "discovery_points": 0
+    },
+    "SOUTH-TEMPLE": {
+      "name": "Altar",
+      "description": "This is the south end of a large temple. In front of you is what appears to be an altar. In one corner is a small hole in the floor which leads into darkness. You probably could not get back up it.",
+      "area": "Dome, Temple, Egypt",
+      "exits": {
+        "north": "NORTH-TEMPLE",
+        "down": "TINY-CAVE"
+      },
+      "conditions": {
+        "down": "COFFIN-CURE"
+      },
+      "discovery_points": 0
+    },
+    "DAM-ROOM": {
+      "name": "Dam",
+      "description": "You stand atop Flood Control Dam #3. Old controls overlook the reservoir on one side and the river below on the other.",
+      "area": "Flood Control Dam #3",
+      "exits": {
+        "south": "DEEP-CANYON",
+        "down": "DAM-BASE",
+        "east": "DAM-BASE",
+        "north": "DAM-LOBBY",
+        "west": "RESERVOIR-SOUTH"
+      },
+      "conditions": {},
+      "discovery_points": 0
+    },
+    "DAM-LOBBY": {
+      "name": "Dam Lobby",
+      "description": "This room appears to have been the waiting room for groups touring the dam. There are open doorways here to the north and east marked \"Private\", and there is a path leading south over the top of the dam.",
+      "area": "Flood Control Dam #3",
+      "exits": {
+        "south": "DAM-ROOM",
+        "north": "MAINTENANCE-ROOM",
+        "east": "MAINTENANCE-ROOM"
+      },
+      "conditions": {},
+      "discovery_points": 0
+    },
+    "MAINTENANCE-ROOM": {
+      "name": "Maintenance Room",
+      "description": "This is what appears to have been the maintenance room for Flood Control Dam #3. Apparently, this room has been ransacked recently, for most of the valuable equipment is gone. On the wall in front of you is a group of buttons colored blue, yellow, brown, and red. There are doorways to the west and south.",
+      "area": "Flood Control Dam #3",
+      "exits": {
+        "south": "DAM-LOBBY",
+        "west": "DAM-LOBBY"
+      },
+      "conditions": {},
+      "discovery_points": 0
+    },
+    "DAM-BASE": {
+      "name": "Dam Base",
+      "description": "You are at the base of Flood Control Dam #3, which looms above you and to the north. The river Frigid is flowing by here. Along the river are the White Cliffs which seem to form giant walls stretching from north to south along the shores of the river as it winds its way downstream.",
+      "area": "River Area",
+      "exits": {
+        "north": "DAM-ROOM",
+        "up": "DAM-ROOM",
+        "launch": "RIVER-1"
+      },
+      "conditions": {},
+      "discovery_points": 0
+    },
+    "RIVER-1": {
+      "name": "Frigid River",
+      "description": "You are on the Frigid River in the vicinity of the Dam. The river flows quietly here. There is a landing on the west shore.",
+      "area": "River Area",
+      "exits": {
+        "west": "DAM-BASE",
+        "land": "DAM-BASE",
+        "down": "RIVER-2"
+      },
+      "conditions": {},
+      "discovery_points": 0
+    },
+    "RIVER-2": {
+      "name": "Frigid River",
+      "description": "The river turns a corner here making it impossible to see the Dam. The White Cliffs loom on the east bank and large rocks prevent landing on the west.",
+      "area": "River Area",
+      "exits": {
+        "down": "RIVER-3"
+      },
+      "conditions": {},
+      "discovery_points": 0
+    },
+    "RIVER-3": {
+      "name": "Frigid River",
+      "description": "The river descends here into a valley. There is a narrow beach on the west shore below the cliffs. In the distance a faint rumbling can be heard.",
+      "area": "River Area",
+      "exits": {
+        "down": "RIVER-4",
+        "land": "WHITE-CLIFFS-NORTH",
+        "west": "WHITE-CLIFFS-NORTH"
+      },
+      "conditions": {},
+      "discovery_points": 0
+    },
+    "WHITE-CLIFFS-NORTH": {
+      "name": "White Cliffs Beach",
+      "description": "You are on a narrow strip of beach which runs along the base of the White Cliffs. There is a narrow path heading south along the Cliffs and a tight passage leading west into the cliffs themselves.",
+      "area": "River Area",
+      "exits": {
+        "south": "WHITE-CLIFFS-SOUTH",
+        "west": "DAMP-CAVE",
+        "launch": "RIVER-3"
+      },
+      "conditions": {
+        "south": "DEFLATE",
+        "west": "DEFLATE"
+      },
+      "discovery_points": 0
+    },
+    "WHITE-CLIFFS-SOUTH": {
+      "name": "White Cliffs Beach",
+      "description": "You are on a rocky, narrow strip of beach beside the Cliffs. A narrow path leads north along the shore.",
+      "area": "River Area",
+      "exits": {
+        "north": "WHITE-CLIFFS-NORTH",
+        "launch": "RIVER-4"
+      },
+      "conditions": {
+        "north": "DEFLATE"
+      },
+      "discovery_points": 0
+    },
+    "RIVER-4": {
+      "name": "Frigid River",
+      "description": "The river is running faster here and the sound ahead appears to be that of rushing water. On the east shore is a sandy beach. A small area of beach can also be seen below the cliffs on the west shore.",
+      "area": "River Area",
+      "exits": {
+        "down": "RIVER-5",
+        "west": "WHITE-CLIFFS-SOUTH",
+        "east": "SANDY-BEACH"
+      },
+      "conditions": {},
+      "discovery_points": 0
+    },
+    "RIVER-5": {
+      "name": "Frigid River",
+      "description": "The sound of rushing water is nearly unbearable here. On the east shore is a large landing area.",
+      "area": "River Area",
+      "exits": {
+        "east": "SHORE",
+        "land": "SHORE"
+      },
+      "conditions": {},
+      "discovery_points": 0
+    },
+    "SHORE": {
+      "name": "Shore",
+      "description": "You are on the east shore of the river. The water here seems somewhat treacherous. A path travels from north to south here, the south end quickly turning around a sharp corner.",
+      "area": "River Area",
+      "exits": {
+        "north": "SANDY-BEACH",
+        "south": "ARAGAIN-FALLS",
+        "launch": "RIVER-5"
+      },
+      "conditions": {},
+      "discovery_points": 0
+    },
+    "SANDY-BEACH": {
+      "name": "Sandy Beach",
+      "description": "You are on a large sandy beach on the east shore of the river, which is flowing quickly by. A path runs beside the river to the south here, and a passage is partially buried in sand to the northeast.",
+      "area": "River Area",
+      "exits": {
+        "northeast": "SANDY-CAVE",
+        "south": "SHORE",
+        "launch": "RIVER-4"
+      },
+      "conditions": {},
+      "discovery_points": 0
+    },
+    "SANDY-CAVE": {
+      "name": "Sandy Cave",
+      "description": "This is a sand-filled cave whose exit is to the southwest.",
+      "area": "River Area",
+      "exits": {
+        "southwest": "SANDY-BEACH"
+      },
+      "conditions": {},
+      "discovery_points": 0
+    },
+    "ARAGAIN-FALLS": {
+      "name": "Aragain Falls",
+      "description": "The Frigid River plunges into a roaring waterfall. A solid rainbow bridge spans the mist toward the opposite bank.",
+      "area": "River Area",
+      "exits": {
+        "west": "ON-RAINBOW",
+        "north": "SHORE",
+        "up": "ON-RAINBOW"
+      },
+      "conditions": {
+        "west": "RAINBOW-FLAG",
+        "up": "RAINBOW-FLAG"
+      },
+      "discovery_points": 0
+    },
+    "ON-RAINBOW": {
+      "name": "On the Rainbow",
+      "description": "You are on top of a rainbow (I bet you never thought you would walk on a rainbow), with a magnificent view of the Falls. The rainbow travels east-west here.",
+      "area": "River Area",
+      "exits": {
+        "west": "END-OF-RAINBOW",
+        "east": "ARAGAIN-FALLS"
+      },
+      "conditions": {},
+      "discovery_points": 0
+    },
+    "END-OF-RAINBOW": {
+      "name": "End of Rainbow",
+      "description": "You are on a small, rocky beach on the continuation of the Frigid River past the Falls. The beach is narrow due to the presence of the White Cliffs. The river canyon opens here and sunlight shines in from above. A rainbow crosses over the falls to the east and a narrow path continues to the southwest.",
+      "area": "River Area",
+      "exits": {
+        "up": "ON-RAINBOW",
+        "northeast": "ON-RAINBOW",
+        "east": "ON-RAINBOW",
+        "southwest": "CANYON-BOTTOM"
+      },
+      "conditions": {
+        "up": "RAINBOW-FLAG",
+        "northeast": "RAINBOW-FLAG",
+        "east": "RAINBOW-FLAG"
+      },
+      "discovery_points": 0
+    },
+    "CANYON-BOTTOM": {
+      "name": "Canyon Bottom",
+      "description": "You are beneath the walls of the river canyon which may be climbable here. The lesser part of the runoff of Aragain Falls flows by below. To the north is a narrow path.",
+      "area": "River Area",
+      "exits": {
+        "up": "CLIFF-MIDDLE",
+        "north": "END-OF-RAINBOW"
+      },
+      "conditions": {},
+      "discovery_points": 0
+    },
+    "CLIFF-MIDDLE": {
+      "name": "Rocky Ledge",
+      "description": "You are on a ledge about halfway up the wall of the river canyon. You can see from here that the main flow from Aragain Falls twists along a passage which it is impossible for you to enter. Below you is the canyon bottom. Above you is more cliff, which appears climbable.",
+      "area": "River Area",
+      "exits": {
+        "up": "CANYON-VIEW",
+        "down": "CANYON-BOTTOM"
+      },
+      "conditions": {},
+      "discovery_points": 0
+    },
+    "CANYON-VIEW": {
+      "name": "Canyon View",
+      "description": "You are at the top of the Great Canyon on its west wall. From here there is a marvelous view of the canyon and parts of the Frigid River upstream. Across the canyon, the walls of the White Cliffs join the mighty ramparts of the Flathead Mountains to the east. Following the Canyon upstream to the north, Aragain Falls may be seen, complete with rainbow. The mighty Frigid River flows out from a great dark cavern. To the west and south can be seen an immense forest, stretching for miles around. A path leads northwest. It is possible to climb down into the canyon from here.",
+      "area": "River Area",
+      "exits": {
+        "east": "CLIFF-MIDDLE",
+        "down": "CLIFF-MIDDLE",
+        "northwest": "CLEARING",
+        "west": "FOREST-3"
+      },
+      "conditions": {},
+      "discovery_points": 0
+    },
+    "MINE-ENTRANCE": {
+      "name": "Mine Entrance",
+      "description": "You are standing at the entrance of what might have been a coal mine. The shaft enters the west wall, and there is another exit on the south end of the room.",
+      "area": "Coal Mine Area",
+      "exits": {
+        "south": "SLIDE-ROOM",
+        "in": "SQUEEKY-ROOM",
+        "west": "SQUEEKY-ROOM"
+      },
+      "conditions": {},
+      "discovery_points": 0
+    },
+    "SQUEEKY-ROOM": {
+      "name": "Squeaky Room",
+      "description": "You are in a small room. Strange squeaky sounds may be heard coming from the passage at the north end. You may also escape to the east.",
+      "area": "Coal Mine Area",
+      "exits": {
+        "north": "BAT-ROOM",
+        "east": "MINE-ENTRANCE"
+      },
+      "conditions": {},
+      "discovery_points": 0
+    },
+    "BAT-ROOM": {
+      "name": "Bat Room",
+      "description": "Bats rustle in the dark ceiling of a mine chamber. They leave the passageways clear for this expedition.",
+      "area": "Coal Mine Area",
+      "exits": {
+        "south": "SQUEEKY-ROOM",
+        "east": "SHAFT-ROOM"
+      },
+      "conditions": {},
+      "discovery_points": 0
+    },
+    "SHAFT-ROOM": {
+      "name": "Shaft Room",
+      "description": "This is a large room, in the middle of which is a small shaft descending through the floor into darkness below. To the west and the north are exits from this room. Constructed over the top of the shaft is a metal framework to which a heavy iron chain is attached.",
+      "area": "Coal Mine Area",
+      "exits": {
+        "west": "BAT-ROOM",
+        "north": "SMELLY-ROOM"
+      },
+      "conditions": {},
+      "discovery_points": 0
+    },
+    "SMELLY-ROOM": {
+      "name": "Smelly Room",
+      "description": "This is a small nondescript room. However, from the direction of a small descending staircase a foul odor can be detected. To the south is a narrow tunnel.",
+      "area": "Coal Mine Area",
+      "exits": {
+        "down": "GAS-ROOM",
+        "south": "SHAFT-ROOM"
+      },
+      "conditions": {},
+      "discovery_points": 0
+    },
+    "GAS-ROOM": {
+      "name": "Gas Room",
+      "description": "This is a small room which smells strongly of coal gas. There is a short climb up some stairs and a narrow tunnel leading east.",
+      "area": "Coal Mine Area",
+      "exits": {
+        "up": "SMELLY-ROOM",
+        "east": "MINE-1"
+      },
+      "conditions": {},
+      "discovery_points": 0
+    },
+    "LADDER-TOP": {
+      "name": "Ladder Top",
+      "description": "This is a very small room. In the corner is a rickety wooden ladder, leading downward. It might be safe to descend. There is also a staircase leading upward.",
+      "area": "Coal Mine Area",
+      "exits": {
+        "down": "LADDER-BOTTOM",
+        "up": "MINE-4"
+      },
+      "conditions": {},
+      "discovery_points": 0
+    },
+    "LADDER-BOTTOM": {
+      "name": "Ladder Bottom",
+      "description": "This is a rather wide room. On one side is the bottom of a narrow wooden ladder. To the west and the south are passages leaving the room.",
+      "area": "Coal Mine Area",
+      "exits": {
+        "south": "DEAD-END-5",
+        "west": "TIMBER-ROOM",
+        "up": "LADDER-TOP"
+      },
+      "conditions": {},
+      "discovery_points": 0
+    },
+    "DEAD-END-5": {
+      "name": "Dead End",
+      "description": "You have come to a dead end in the mine.",
+      "area": "Coal Mine Area",
+      "exits": {
+        "north": "LADDER-BOTTOM"
+      },
+      "conditions": {},
+      "discovery_points": 0
+    },
+    "TIMBER-ROOM": {
+      "name": "Timber Room",
+      "description": "This is a long and narrow passage, which is cluttered with broken timbers. A wide passage comes from the east and turns at the west end of the room into a very narrow passageway. From the west comes a strong draft.",
+      "area": "Coal Mine Area",
+      "exits": {
+        "east": "LADDER-BOTTOM",
+        "west": "LOWER-SHAFT"
+      },
+      "conditions": {
+        "west": "EMPTY-HANDED"
+      },
+      "discovery_points": 0
+    },
+    "LOWER-SHAFT": {
+      "name": "Drafty Room",
+      "description": "This is a small drafty room in which is the bottom of a long shaft. To the south is a passageway and to the east a very narrow passage. In the shaft can be seen a heavy iron chain.",
+      "area": "Coal Mine Area",
+      "exits": {
+        "south": "MACHINE-ROOM",
+        "out": "TIMBER-ROOM",
+        "east": "TIMBER-ROOM"
+      },
+      "conditions": {
+        "out": "EMPTY-HANDED",
+        "east": "EMPTY-HANDED"
+      },
+      "discovery_points": 0
+    },
+    "MACHINE-ROOM": {
+      "name": "Machine Room",
+      "description": "An immense abandoned machine occupies this chamber at the bottom of the mine. Its silent controls hint at a lost industrial purpose.",
+      "area": "Coal Mine Area",
+      "exits": {
+        "north": "LOWER-SHAFT"
+      },
+      "conditions": {},
+      "discovery_points": 0
+    },
+    "MINE-1": {
+      "name": "Coal Mine",
+      "description": "This is a nondescript part of a coal mine.",
+      "area": "Coal Mine",
+      "exits": {
+        "north": "GAS-ROOM",
+        "east": "MINE-1",
+        "northeast": "MINE-2"
+      },
+      "conditions": {},
+      "discovery_points": 0
+    },
+    "MINE-2": {
+      "name": "Coal Mine",
+      "description": "This is a nondescript part of a coal mine.",
+      "area": "Coal Mine",
+      "exits": {
+        "north": "MINE-2",
+        "south": "MINE-1",
+        "southeast": "MINE-3"
+      },
+      "conditions": {},
+      "discovery_points": 0
+    },
+    "MINE-3": {
+      "name": "Coal Mine",
+      "description": "This is a nondescript part of a coal mine.",
+      "area": "Coal Mine",
+      "exits": {
+        "south": "MINE-3",
+        "southwest": "MINE-4",
+        "east": "MINE-2"
+      },
+      "conditions": {},
+      "discovery_points": 0
+    },
+    "MINE-4": {
+      "name": "Coal Mine",
+      "description": "This is a nondescript part of a coal mine.",
+      "area": "Coal Mine",
+      "exits": {
+        "north": "MINE-3",
+        "west": "MINE-4",
+        "down": "LADDER-TOP"
+      },
+      "conditions": {},
+      "discovery_points": 0
+    },
+    "SLIDE-ROOM": {
+      "name": "Slide Room",
+      "description": "This is a small chamber, which appears to have been part of a coal mine. On the south wall of the chamber the letters \"Granite Wall\" are etched in the rock. To the east is a long passage, and there is a steep metal slide twisting downward. To the north is a small opening.",
+      "area": "Coal Mine",
+      "exits": {
+        "east": "COLD-PASSAGE",
+        "north": "MINE-ENTRANCE",
+        "down": "CELLAR"
+      },
+      "conditions": {},
+      "discovery_points": 0
+    }
+  },
+  "items": {
+    "MOUNTAIN-RANGE": {
+      "name": "mountain range",
+      "location": "MOUNTAINS",
+      "hidden": false,
+      "description": "You see a mountain range.",
+      "readable_text": null,
+      "aliases": [
+        "mountain",
+        "range"
+      ],
+      "takeable": false,
+      "container": false,
+      "surface": false,
+      "open": false,
+      "transparent": false,
+      "treasure": false,
+      "size": 5,
+      "capacity": 0,
+      "discovery_points": 0,
+      "deposit_points": 0
+    },
+    "WATER": {
+      "name": "quantity of water",
+      "location": "BOTTLE",
+      "hidden": false,
+      "description": "You see a quantity of water.",
+      "readable_text": null,
+      "aliases": [
+        "water",
+        "quantity",
+        "liquid",
+        "h2o"
+      ],
+      "takeable": true,
+      "container": false,
+      "surface": false,
+      "open": false,
+      "transparent": false,
+      "treasure": false,
+      "size": 4,
+      "capacity": 0,
+      "discovery_points": 0,
+      "deposit_points": 0
+    },
+    "SKULL": {
+      "name": "crystal skull",
+      "location": "LAND-OF-LIVING-DEAD",
+      "hidden": false,
+      "description": "Lying in one corner of the room is a beautifully carved crystal skull. It appears to be grinning at you rather nastily.",
+      "readable_text": null,
+      "aliases": [
+        "skull",
+        "head",
+        "treasure"
+      ],
+      "takeable": true,
+      "container": false,
+      "surface": false,
+      "open": false,
+      "transparent": false,
+      "treasure": true,
+      "size": 5,
+      "capacity": 0,
+      "discovery_points": 10,
+      "deposit_points": 10
+    },
+    "LOWERED-BASKET": {
+      "name": "basket",
+      "location": "LOWER-SHAFT",
+      "hidden": false,
+      "description": "From the chain is suspended a basket.",
+      "readable_text": null,
+      "aliases": [
+        "cage",
+        "dumbwaiter",
+        "basket"
+      ],
+      "takeable": false,
+      "container": false,
+      "surface": false,
+      "open": false,
+      "transparent": false,
+      "treasure": false,
+      "size": 5,
+      "capacity": 0,
+      "discovery_points": 0,
+      "deposit_points": 0
+    },
+    "RAISED-BASKET": {
+      "name": "basket",
+      "location": "SHAFT-ROOM",
+      "hidden": false,
+      "description": "At the end of the chain is a basket.",
+      "readable_text": null,
+      "aliases": [
+        "cage",
+        "dumbwaiter",
+        "basket"
+      ],
+      "takeable": false,
+      "container": true,
+      "surface": false,
+      "open": true,
+      "transparent": true,
+      "treasure": false,
+      "size": 5,
+      "capacity": 50,
+      "discovery_points": 0,
+      "deposit_points": 0
+    },
+    "LUNCH": {
+      "name": "lunch",
+      "location": "SANDWICH-BAG",
+      "hidden": false,
+      "description": "A hot pepper sandwich is here.",
+      "readable_text": null,
+      "aliases": [
+        "food",
+        "sandwich",
+        "lunch",
+        "dinner"
+      ],
+      "takeable": true,
+      "container": false,
+      "surface": false,
+      "open": false,
+      "transparent": false,
+      "treasure": false,
+      "size": 5,
+      "capacity": 0,
+      "discovery_points": 0,
+      "deposit_points": 0
+    },
+    "BELL": {
+      "name": "brass bell",
+      "location": "NORTH-TEMPLE",
+      "hidden": false,
+      "description": "You see a brass bell.",
+      "readable_text": null,
+      "aliases": [
+        "bell"
+      ],
+      "takeable": true,
+      "container": false,
+      "surface": false,
+      "open": false,
+      "transparent": false,
+      "treasure": false,
+      "size": 5,
+      "capacity": 0,
+      "discovery_points": 0,
+      "deposit_points": 0
+    },
+    "BOLT": {
+      "name": "bolt",
+      "location": "DAM-ROOM",
+      "hidden": false,
+      "description": "You see a bolt.",
+      "readable_text": null,
+      "aliases": [
+        "bolt",
+        "nut"
+      ],
+      "takeable": false,
+      "container": false,
+      "surface": false,
+      "open": false,
+      "transparent": false,
+      "treasure": false,
+      "size": 5,
+      "capacity": 0,
+      "discovery_points": 0,
+      "deposit_points": 0
+    },
+    "BUBBLE": {
+      "name": "green bubble",
+      "location": "DAM-ROOM",
+      "hidden": false,
+      "description": "You see a green bubble.",
+      "readable_text": null,
+      "aliases": [
+        "bubble"
+      ],
+      "takeable": false,
+      "container": false,
+      "surface": false,
+      "open": false,
+      "transparent": false,
+      "treasure": false,
+      "size": 5,
+      "capacity": 0,
+      "discovery_points": 0,
+      "deposit_points": 0
+    },
+    "ALTAR": {
+      "name": "altar",
+      "location": "SOUTH-TEMPLE",
+      "hidden": false,
+      "description": "You see a altar.",
+      "readable_text": null,
+      "aliases": [
+        "altar"
+      ],
+      "takeable": false,
+      "container": true,
+      "surface": true,
+      "open": true,
+      "transparent": false,
+      "treasure": false,
+      "size": 5,
+      "capacity": 50,
+      "discovery_points": 0,
+      "deposit_points": 0
+    },
+    "BOOK": {
+      "name": "black book",
+      "location": "ALTAR",
+      "hidden": false,
+      "description": "On the altar is a large black book, open to page 569.",
+      "readable_text": "Commandment #12592 Oh ye who go about saying unto each: \"Hello sailor\": Dost thou know the magnitude of thy sin before the gods? Yea, verily, thou shalt be ground between two stones. Shall the angry gods cast thy body into the whirlpool? Surely, thy eye shall be put out with a sharp stick! Even unto the ends of the earth shalt thou wander and Unto the land of the dead shalt thou be sent at last. Surely thou shalt repent of thy cunning.",
+      "aliases": [
+        "book",
+        "prayer",
+        "page",
+        "books"
+      ],
+      "takeable": true,
+      "container": true,
+      "surface": false,
+      "open": false,
+      "transparent": false,
+      "treasure": false,
+      "size": 10,
+      "capacity": 0,
+      "discovery_points": 0,
+      "deposit_points": 0
+    },
+    "SCEPTRE": {
+      "name": "sceptre",
+      "location": "COFFIN",
+      "hidden": false,
+      "description": "A sceptre, possibly that of ancient Egypt itself, is in the coffin. The sceptre is ornamented with colored enamel, and tapers to a sharp point.",
+      "readable_text": null,
+      "aliases": [
+        "sceptre",
+        "scepter",
+        "treasure"
+      ],
+      "takeable": true,
+      "container": false,
+      "surface": false,
+      "open": false,
+      "transparent": false,
+      "treasure": true,
+      "size": 3,
+      "capacity": 0,
+      "discovery_points": 4,
+      "deposit_points": 6
+    },
+    "TIMBERS": {
+      "name": "broken timber",
+      "location": "TIMBER-ROOM",
+      "hidden": false,
+      "description": "You see a broken timber.",
+      "readable_text": null,
+      "aliases": [
+        "timbers",
+        "pile"
+      ],
+      "takeable": true,
+      "container": false,
+      "surface": false,
+      "open": false,
+      "transparent": false,
+      "treasure": false,
+      "size": 50,
+      "capacity": 0,
+      "discovery_points": 0,
+      "deposit_points": 0
+    },
+    "KITCHEN-TABLE": {
+      "name": "kitchen table",
+      "location": "KITCHEN",
+      "hidden": false,
+      "description": "You see a kitchen table.",
+      "readable_text": null,
+      "aliases": [
+        "table"
+      ],
+      "takeable": false,
+      "container": true,
+      "surface": true,
+      "open": true,
+      "transparent": false,
+      "treasure": false,
+      "size": 5,
+      "capacity": 50,
+      "discovery_points": 0,
+      "deposit_points": 0
+    },
+    "ATTIC-TABLE": {
+      "name": "table",
+      "location": "ATTIC",
+      "hidden": false,
+      "description": "You see a table.",
+      "readable_text": null,
+      "aliases": [
+        "table"
+      ],
+      "takeable": false,
+      "container": true,
+      "surface": true,
+      "open": true,
+      "transparent": false,
+      "treasure": false,
+      "size": 5,
+      "capacity": 40,
+      "discovery_points": 0,
+      "deposit_points": 0
+    },
+    "SANDWICH-BAG": {
+      "name": "brown sack",
+      "location": "KITCHEN-TABLE",
+      "hidden": false,
+      "description": "On the table is an elongated brown sack, smelling of hot peppers.",
+      "readable_text": null,
+      "aliases": [
+        "bag",
+        "sack"
+      ],
+      "takeable": true,
+      "container": true,
+      "surface": false,
+      "open": false,
+      "transparent": false,
+      "treasure": false,
+      "size": 9,
+      "capacity": 9,
+      "discovery_points": 0,
+      "deposit_points": 0
+    },
+    "TOOL-CHEST": {
+      "name": "group of tool chests",
+      "location": "MAINTENANCE-ROOM",
+      "hidden": false,
+      "description": "You see a group of tool chests.",
+      "readable_text": null,
+      "aliases": [
+        "chest",
+        "chests",
+        "group",
+        "toolchests"
+      ],
+      "takeable": false,
+      "container": true,
+      "surface": false,
+      "open": true,
+      "transparent": false,
+      "treasure": false,
+      "size": 5,
+      "capacity": 0,
+      "discovery_points": 0,
+      "deposit_points": 0
+    },
+    "YELLOW-BUTTON": {
+      "name": "yellow button",
+      "location": "MAINTENANCE-ROOM",
+      "hidden": false,
+      "description": "You see a yellow button.",
+      "readable_text": null,
+      "aliases": [
+        "button",
+        "switch"
+      ],
+      "takeable": false,
+      "container": false,
+      "surface": false,
+      "open": false,
+      "transparent": false,
+      "treasure": false,
+      "size": 5,
+      "capacity": 0,
+      "discovery_points": 0,
+      "deposit_points": 0
+    },
+    "BROWN-BUTTON": {
+      "name": "brown button",
+      "location": "MAINTENANCE-ROOM",
+      "hidden": false,
+      "description": "You see a brown button.",
+      "readable_text": null,
+      "aliases": [
+        "button",
+        "switch"
+      ],
+      "takeable": false,
+      "container": false,
+      "surface": false,
+      "open": false,
+      "transparent": false,
+      "treasure": false,
+      "size": 5,
+      "capacity": 0,
+      "discovery_points": 0,
+      "deposit_points": 0
+    },
+    "RED-BUTTON": {
+      "name": "red button",
+      "location": "MAINTENANCE-ROOM",
+      "hidden": false,
+      "description": "You see a red button.",
+      "readable_text": null,
+      "aliases": [
+        "button",
+        "switch"
+      ],
+      "takeable": false,
+      "container": false,
+      "surface": false,
+      "open": false,
+      "transparent": false,
+      "treasure": false,
+      "size": 5,
+      "capacity": 0,
+      "discovery_points": 0,
+      "deposit_points": 0
+    },
+    "BLUE-BUTTON": {
+      "name": "blue button",
+      "location": "MAINTENANCE-ROOM",
+      "hidden": false,
+      "description": "You see a blue button.",
+      "readable_text": null,
+      "aliases": [
+        "button",
+        "switch"
+      ],
+      "takeable": false,
+      "container": false,
+      "surface": false,
+      "open": false,
+      "transparent": false,
+      "treasure": false,
+      "size": 5,
+      "capacity": 0,
+      "discovery_points": 0,
+      "deposit_points": 0
+    },
+    "TROPHY-CASE": {
+      "name": "trophy case",
+      "location": "LIVING-ROOM",
+      "hidden": false,
+      "description": "You see a trophy case.",
+      "readable_text": null,
+      "aliases": [
+        "case"
+      ],
+      "takeable": false,
+      "container": true,
+      "surface": false,
+      "open": false,
+      "transparent": true,
+      "treasure": false,
+      "size": 5,
+      "capacity": 10000,
+      "discovery_points": 0,
+      "deposit_points": 0
+    },
+    "RUG": {
+      "name": "carpet",
+      "location": "LIVING-ROOM",
+      "hidden": false,
+      "description": "You see a carpet.",
+      "readable_text": null,
+      "aliases": [
+        "rug",
+        "carpet"
+      ],
+      "takeable": false,
+      "container": false,
+      "surface": false,
+      "open": false,
+      "transparent": false,
+      "treasure": false,
+      "size": 5,
+      "capacity": 0,
+      "discovery_points": 0,
+      "deposit_points": 0
+    },
+    "CHALICE": {
+      "name": "chalice",
+      "location": "TREASURE-ROOM",
+      "hidden": false,
+      "description": "There is a silver chalice, intricately engraved, here.",
+      "readable_text": null,
+      "aliases": [
+        "chalice",
+        "cup",
+        "silver",
+        "treasure"
+      ],
+      "takeable": true,
+      "container": true,
+      "surface": false,
+      "open": false,
+      "transparent": false,
+      "treasure": true,
+      "size": 10,
+      "capacity": 5,
+      "discovery_points": 10,
+      "deposit_points": 5
+    },
+    "GARLIC": {
+      "name": "clove of garlic",
+      "location": "SANDWICH-BAG",
+      "hidden": false,
+      "description": "You see a clove of garlic.",
+      "readable_text": null,
+      "aliases": [
+        "garlic",
+        "clove"
+      ],
+      "takeable": true,
+      "container": false,
+      "surface": false,
+      "open": false,
+      "transparent": false,
+      "treasure": false,
+      "size": 4,
+      "capacity": 0,
+      "discovery_points": 0,
+      "deposit_points": 0
+    },
+    "TRIDENT": {
+      "name": "crystal trident",
+      "location": "ATLANTIS-ROOM",
+      "hidden": false,
+      "description": "On the shore lies Poseidon's own crystal trident.",
+      "readable_text": null,
+      "aliases": [
+        "trident",
+        "fork",
+        "treasure"
+      ],
+      "takeable": true,
+      "container": false,
+      "surface": false,
+      "open": false,
+      "transparent": false,
+      "treasure": true,
+      "size": 20,
+      "capacity": 0,
+      "discovery_points": 4,
+      "deposit_points": 11
+    },
+    "DAM": {
+      "name": "dam",
+      "location": "DAM-ROOM",
+      "hidden": false,
+      "description": "You see a dam.",
+      "readable_text": null,
+      "aliases": [
+        "dam",
+        "gate",
+        "gates",
+        "fcd\\#3"
+      ],
+      "takeable": false,
+      "container": false,
+      "surface": false,
+      "open": false,
+      "transparent": false,
+      "treasure": false,
+      "size": 5,
+      "capacity": 0,
+      "discovery_points": 0,
+      "deposit_points": 0
+    },
+    "TRAP-DOOR": {
+      "name": "trap door",
+      "location": "LIVING-ROOM",
+      "hidden": true,
+      "description": "You see a trap door.",
+      "readable_text": null,
+      "aliases": [
+        "door",
+        "trapdoor",
+        "trap-door",
+        "cover"
+      ],
+      "takeable": false,
+      "container": false,
+      "surface": false,
+      "open": false,
+      "transparent": false,
+      "treasure": false,
+      "size": 5,
+      "capacity": 0,
+      "discovery_points": 0,
+      "deposit_points": 0
+    },
+    "FRONT-DOOR": {
+      "name": "door",
+      "location": "WEST-OF-HOUSE",
+      "hidden": false,
+      "description": "You see a door.",
+      "readable_text": null,
+      "aliases": [
+        "door"
+      ],
+      "takeable": false,
+      "container": false,
+      "surface": false,
+      "open": false,
+      "transparent": false,
+      "treasure": false,
+      "size": 5,
+      "capacity": 0,
+      "discovery_points": 0,
+      "deposit_points": 0
+    },
+    "BARROW-DOOR": {
+      "name": "stone door",
+      "location": "STONE-BARROW",
+      "hidden": false,
+      "description": "You see a stone door.",
+      "readable_text": null,
+      "aliases": [
+        "door"
+      ],
+      "takeable": false,
+      "container": false,
+      "surface": false,
+      "open": true,
+      "transparent": false,
+      "treasure": false,
+      "size": 5,
+      "capacity": 0,
+      "discovery_points": 0,
+      "deposit_points": 0
+    },
+    "BARROW": {
+      "name": "stone barrow",
+      "location": "STONE-BARROW",
+      "hidden": false,
+      "description": "You see a stone barrow.",
+      "readable_text": null,
+      "aliases": [
+        "barrow",
+        "tomb"
+      ],
+      "takeable": false,
+      "container": false,
+      "surface": false,
+      "open": false,
+      "transparent": false,
+      "treasure": false,
+      "size": 5,
+      "capacity": 0,
+      "discovery_points": 0,
+      "deposit_points": 0
+    },
+    "BOTTLE": {
+      "name": "glass bottle",
+      "location": "KITCHEN-TABLE",
+      "hidden": false,
+      "description": "A bottle is sitting on the table.",
+      "readable_text": null,
+      "aliases": [
+        "bottle",
+        "container"
+      ],
+      "takeable": true,
+      "container": true,
+      "surface": false,
+      "open": false,
+      "transparent": true,
+      "treasure": false,
+      "size": 5,
+      "capacity": 4,
+      "discovery_points": 0,
+      "deposit_points": 0
+    },
+    "COFFIN": {
+      "name": "gold coffin",
+      "location": "EGYPT-ROOM",
+      "hidden": false,
+      "description": "The solid-gold coffin used for the burial of Ramses II is here.",
+      "readable_text": null,
+      "aliases": [
+        "coffin",
+        "casket",
+        "treasure"
+      ],
+      "takeable": true,
+      "container": true,
+      "surface": false,
+      "open": false,
+      "transparent": false,
+      "treasure": true,
+      "size": 55,
+      "capacity": 35,
+      "discovery_points": 10,
+      "deposit_points": 15
+    },
+    "PUMP": {
+      "name": "hand-held air pump",
+      "location": "RESERVOIR-NORTH",
+      "hidden": false,
+      "description": "You see a hand-held air pump.",
+      "readable_text": null,
+      "aliases": [
+        "pump",
+        "air-pump",
+        "tool",
+        "tools"
+      ],
+      "takeable": true,
+      "container": false,
+      "surface": false,
+      "open": false,
+      "transparent": false,
+      "treasure": false,
+      "size": 5,
+      "capacity": 0,
+      "discovery_points": 0,
+      "deposit_points": 0
+    },
+    "DIAMOND": {
+      "name": "huge diamond",
+      "location": "offstage",
+      "hidden": false,
+      "description": "There is an enormous diamond (perfectly cut) here.",
+      "readable_text": null,
+      "aliases": [
+        "diamond",
+        "treasure"
+      ],
+      "takeable": true,
+      "container": false,
+      "surface": false,
+      "open": false,
+      "transparent": false,
+      "treasure": true,
+      "size": 5,
+      "capacity": 0,
+      "discovery_points": 10,
+      "deposit_points": 10
+    },
+    "JADE": {
+      "name": "jade figurine",
+      "location": "BAT-ROOM",
+      "hidden": false,
+      "description": "There is an exquisite jade figurine here.",
+      "readable_text": null,
+      "aliases": [
+        "figurine",
+        "treasure"
+      ],
+      "takeable": true,
+      "container": false,
+      "surface": false,
+      "open": false,
+      "transparent": false,
+      "treasure": true,
+      "size": 10,
+      "capacity": 0,
+      "discovery_points": 5,
+      "deposit_points": 5
+    },
+    "KNIFE": {
+      "name": "nasty knife",
+      "location": "ATTIC-TABLE",
+      "hidden": false,
+      "description": "On a table is a nasty-looking knife.",
+      "readable_text": null,
+      "aliases": [
+        "knives",
+        "knife",
+        "blade"
+      ],
+      "takeable": true,
+      "container": false,
+      "surface": false,
+      "open": false,
+      "transparent": false,
+      "treasure": false,
+      "size": 5,
+      "capacity": 0,
+      "discovery_points": 0,
+      "deposit_points": 0
+    },
+    "BONES": {
+      "name": "skeleton",
+      "location": "MAZE-5",
+      "hidden": false,
+      "description": "You see a skeleton.",
+      "readable_text": null,
+      "aliases": [
+        "bones",
+        "skeleton",
+        "body"
+      ],
+      "takeable": false,
+      "container": false,
+      "surface": false,
+      "open": false,
+      "transparent": false,
+      "treasure": false,
+      "size": 5,
+      "capacity": 0,
+      "discovery_points": 0,
+      "deposit_points": 0
+    },
+    "BURNED-OUT-LANTERN": {
+      "name": "burned-out lantern",
+      "location": "MAZE-5",
+      "hidden": false,
+      "description": "The deceased adventurer's useless lantern is here.",
+      "readable_text": null,
+      "aliases": [
+        "lantern",
+        "lamp"
+      ],
+      "takeable": true,
+      "container": false,
+      "surface": false,
+      "open": false,
+      "transparent": false,
+      "treasure": false,
+      "size": 20,
+      "capacity": 0,
+      "discovery_points": 0,
+      "deposit_points": 0
+    },
+    "BAG-OF-COINS": {
+      "name": "leather bag of coins",
+      "location": "MAZE-5",
+      "hidden": false,
+      "description": "An old leather bag, bulging with coins, is here.",
+      "readable_text": null,
+      "aliases": [
+        "bag",
+        "coins",
+        "treasure"
+      ],
+      "takeable": true,
+      "container": false,
+      "surface": false,
+      "open": false,
+      "transparent": false,
+      "treasure": true,
+      "size": 15,
+      "capacity": 0,
+      "discovery_points": 10,
+      "deposit_points": 5
+    },
+    "LAMP": {
+      "name": "brass lantern",
+      "location": "LIVING-ROOM",
+      "hidden": false,
+      "description": "A battery-powered brass lantern is on the trophy case.",
+      "readable_text": null,
+      "aliases": [
+        "lamp",
+        "lantern",
+        "light"
+      ],
+      "takeable": true,
+      "container": false,
+      "surface": false,
+      "open": false,
+      "transparent": false,
+      "treasure": false,
+      "size": 15,
+      "capacity": 0,
+      "discovery_points": 0,
+      "deposit_points": 0
+    },
+    "EMERALD": {
+      "name": "large emerald",
+      "location": "BUOY",
+      "hidden": false,
+      "description": "You see a large emerald.",
+      "readable_text": null,
+      "aliases": [
+        "emerald",
+        "treasure"
+      ],
+      "takeable": true,
+      "container": false,
+      "surface": false,
+      "open": false,
+      "transparent": false,
+      "treasure": true,
+      "size": 5,
+      "capacity": 0,
+      "discovery_points": 5,
+      "deposit_points": 10
+    },
+    "ADVERTISEMENT": {
+      "name": "leaflet",
+      "location": "MAILBOX",
+      "hidden": false,
+      "description": "A small leaflet is on the ground.",
+      "readable_text": "\"WELCOME TO ZORK! ZORK is a game of adventure, danger, and low cunning. In it you will explore some of the most amazing territory ever seen by mortals. No computer should be without one!\"",
+      "aliases": [
+        "advertisement",
+        "leaflet",
+        "booklet",
+        "mail"
+      ],
+      "takeable": true,
+      "container": false,
+      "surface": false,
+      "open": false,
+      "transparent": false,
+      "treasure": false,
+      "size": 2,
+      "capacity": 0,
+      "discovery_points": 0,
+      "deposit_points": 0
+    },
+    "LEAK": {
+      "name": "leak",
+      "location": "MAINTENANCE-ROOM",
+      "hidden": true,
+      "description": "You see a leak.",
+      "readable_text": null,
+      "aliases": [
+        "leak",
+        "drip",
+        "pipe"
+      ],
+      "takeable": false,
+      "container": false,
+      "surface": false,
+      "open": false,
+      "transparent": false,
+      "treasure": false,
+      "size": 5,
+      "capacity": 0,
+      "discovery_points": 0,
+      "deposit_points": 0
+    },
+    "MACHINE": {
+      "name": "machine",
+      "location": "MACHINE-ROOM",
+      "hidden": false,
+      "description": "You see a machine.",
+      "readable_text": null,
+      "aliases": [
+        "machine",
+        "pdp10",
+        "dryer",
+        "lid"
+      ],
+      "takeable": false,
+      "container": true,
+      "surface": false,
+      "open": false,
+      "transparent": false,
+      "treasure": false,
+      "size": 5,
+      "capacity": 50,
+      "discovery_points": 0,
+      "deposit_points": 0
+    },
+    "MAILBOX": {
+      "name": "small mailbox",
+      "location": "WEST-OF-HOUSE",
+      "hidden": false,
+      "description": "You see a small mailbox.",
+      "readable_text": null,
+      "aliases": [
+        "mailbox",
+        "box"
+      ],
+      "takeable": false,
+      "container": true,
+      "surface": false,
+      "open": false,
+      "transparent": false,
+      "treasure": false,
+      "size": 5,
+      "capacity": 10,
+      "discovery_points": 0,
+      "deposit_points": 0
+    },
+    "MATCH": {
+      "name": "matchbook",
+      "location": "DAM-LOBBY",
+      "hidden": false,
+      "description": "There is a matchbook whose cover says \"Visit Beautiful FCD#3\" here.",
+      "readable_text": "(Close cover before striking) YOU too can make BIG MONEY in the exciting field of PAPER SHUFFLING! Mr. Anderson of Muddle, Mass. says: \"Before I took this course I was a lowly bit twiddler. Now with what I learned at GUE Tech I feel really important and can obfuscate and confuse with the best.\" Dr. Blank had this to say: \"Ten short days ago all I could look forward to was a dead-end job as a doctor. Now I have a promising future and make really big Zorkmids.\" GUE Tech can't promise these fantastic results to everyone. But when you earn your degree from GUE Tech, your future will be brighter.",
+      "aliases": [
+        "match",
+        "matches",
+        "matchbook"
+      ],
+      "takeable": true,
+      "container": false,
+      "surface": false,
+      "open": false,
+      "transparent": false,
+      "treasure": false,
+      "size": 2,
+      "capacity": 0,
+      "discovery_points": 0,
+      "deposit_points": 0
+    },
+    "MIRROR-2": {
+      "name": "mirror",
+      "location": "MIRROR-ROOM-2",
+      "hidden": false,
+      "description": "You see a mirror.",
+      "readable_text": null,
+      "aliases": [
+        "reflection",
+        "mirror",
+        "enormous"
+      ],
+      "takeable": false,
+      "container": false,
+      "surface": false,
+      "open": false,
+      "transparent": false,
+      "treasure": false,
+      "size": 5,
+      "capacity": 0,
+      "discovery_points": 0,
+      "deposit_points": 0
+    },
+    "MIRROR-1": {
+      "name": "mirror",
+      "location": "MIRROR-ROOM-1",
+      "hidden": false,
+      "description": "You see a mirror.",
+      "readable_text": null,
+      "aliases": [
+        "reflection",
+        "mirror",
+        "enormous"
+      ],
+      "takeable": false,
+      "container": false,
+      "surface": false,
+      "open": false,
+      "transparent": false,
+      "treasure": false,
+      "size": 5,
+      "capacity": 0,
+      "discovery_points": 0,
+      "deposit_points": 0
+    },
+    "PAINTING": {
+      "name": "painting",
+      "location": "GALLERY",
+      "hidden": false,
+      "description": "Fortunately, there is still one chance for you to be a vandal, for on the far wall is a painting of unparalleled beauty.",
+      "readable_text": null,
+      "aliases": [
+        "painting",
+        "art",
+        "canvas",
+        "treasure"
+      ],
+      "takeable": true,
+      "container": false,
+      "surface": false,
+      "open": false,
+      "transparent": false,
+      "treasure": true,
+      "size": 15,
+      "capacity": 0,
+      "discovery_points": 4,
+      "deposit_points": 6
+    },
+    "CANDLES": {
+      "name": "pair of candles",
+      "location": "SOUTH-TEMPLE",
+      "hidden": false,
+      "description": "On the two ends of the altar are burning candles.",
+      "readable_text": null,
+      "aliases": [
+        "candles",
+        "pair"
+      ],
+      "takeable": true,
+      "container": false,
+      "surface": false,
+      "open": false,
+      "transparent": false,
+      "treasure": false,
+      "size": 10,
+      "capacity": 0,
+      "discovery_points": 0,
+      "deposit_points": 0
+    },
+    "LEAVES": {
+      "name": "pile of leaves",
+      "location": "GRATING-CLEARING",
+      "hidden": false,
+      "description": "On the ground is a pile of leaves.",
+      "readable_text": null,
+      "aliases": [
+        "leaves",
+        "leaf",
+        "pile"
+      ],
+      "takeable": true,
+      "container": false,
+      "surface": false,
+      "open": false,
+      "transparent": false,
+      "treasure": false,
+      "size": 25,
+      "capacity": 0,
+      "discovery_points": 0,
+      "deposit_points": 0
+    },
+    "INFLATABLE-BOAT": {
+      "name": "pile of plastic",
+      "location": "DAM-BASE",
+      "hidden": false,
+      "description": "There is a folded pile of plastic here which has a small valve attached.",
+      "readable_text": null,
+      "aliases": [
+        "boat",
+        "pile",
+        "plastic",
+        "valve"
+      ],
+      "takeable": true,
+      "container": false,
+      "surface": false,
+      "open": false,
+      "transparent": false,
+      "treasure": false,
+      "size": 20,
+      "capacity": 0,
+      "discovery_points": 0,
+      "deposit_points": 0
+    },
+    "BAR": {
+      "name": "platinum bar",
+      "location": "LOUD-ROOM",
+      "hidden": false,
+      "description": "On the ground is a large platinum bar.",
+      "readable_text": null,
+      "aliases": [
+        "bar",
+        "platinum",
+        "treasure"
+      ],
+      "takeable": true,
+      "container": false,
+      "surface": false,
+      "open": false,
+      "transparent": false,
+      "treasure": true,
+      "size": 20,
+      "capacity": 0,
+      "discovery_points": 10,
+      "deposit_points": 5
+    },
+    "POT-OF-GOLD": {
+      "name": "pot of gold",
+      "location": "END-OF-RAINBOW",
+      "hidden": true,
+      "description": "At the end of the rainbow is a pot of gold.",
+      "readable_text": null,
+      "aliases": [
+        "pot",
+        "gold",
+        "treasure"
+      ],
+      "takeable": true,
+      "container": false,
+      "surface": false,
+      "open": false,
+      "transparent": false,
+      "treasure": true,
+      "size": 15,
+      "capacity": 0,
+      "discovery_points": 10,
+      "deposit_points": 10
+    },
+    "PRAYER": {
+      "name": "prayer",
+      "location": "NORTH-TEMPLE",
+      "hidden": false,
+      "description": "You see a prayer.",
+      "readable_text": "The prayer is inscribed in an ancient script, rarely used today. It seems to be a philippic against small insects, absent-mindedness, and the picking up and dropping of small objects. The final verse consigns trespassers to the land of the dead. All evidence indicates that the beliefs of the ancient Zorkers were obscure.",
+      "aliases": [
+        "prayer",
+        "inscription"
+      ],
+      "takeable": false,
+      "container": false,
+      "surface": false,
+      "open": false,
+      "transparent": false,
+      "treasure": false,
+      "size": 5,
+      "capacity": 0,
+      "discovery_points": 0,
+      "deposit_points": 0
+    },
+    "RAILING": {
+      "name": "wooden railing",
+      "location": "DOME-ROOM",
+      "hidden": false,
+      "description": "You see a wooden railing.",
+      "readable_text": null,
+      "aliases": [
+        "railing",
+        "rail"
+      ],
+      "takeable": false,
+      "container": false,
+      "surface": false,
+      "open": false,
+      "transparent": false,
+      "treasure": false,
+      "size": 5,
+      "capacity": 0,
+      "discovery_points": 0,
+      "deposit_points": 0
+    },
+    "BUOY": {
+      "name": "red buoy",
+      "location": "RIVER-4",
+      "hidden": false,
+      "description": "There is a red buoy here (probably a warning).",
+      "readable_text": null,
+      "aliases": [
+        "buoy"
+      ],
+      "takeable": true,
+      "container": true,
+      "surface": false,
+      "open": false,
+      "transparent": false,
+      "treasure": false,
+      "size": 10,
+      "capacity": 20,
+      "discovery_points": 0,
+      "deposit_points": 0
+    },
+    "ROPE": {
+      "name": "rope",
+      "location": "ATTIC",
+      "hidden": false,
+      "description": "A large coil of rope is lying in the corner.",
+      "readable_text": null,
+      "aliases": [
+        "rope",
+        "hemp",
+        "coil"
+      ],
+      "takeable": true,
+      "container": false,
+      "surface": false,
+      "open": false,
+      "transparent": false,
+      "treasure": false,
+      "size": 10,
+      "capacity": 0,
+      "discovery_points": 0,
+      "deposit_points": 0
+    },
+    "RUSTY-KNIFE": {
+      "name": "rusty knife",
+      "location": "MAZE-5",
+      "hidden": false,
+      "description": "Beside the skeleton is a rusty knife.",
+      "readable_text": null,
+      "aliases": [
+        "knives",
+        "knife"
+      ],
+      "takeable": true,
+      "container": false,
+      "surface": false,
+      "open": false,
+      "transparent": false,
+      "treasure": false,
+      "size": 20,
+      "capacity": 0,
+      "discovery_points": 0,
+      "deposit_points": 0
+    },
+    "SAND": {
+      "name": "sand",
+      "location": "SANDY-CAVE",
+      "hidden": false,
+      "description": "You see a sand.",
+      "readable_text": null,
+      "aliases": [
+        "sand"
+      ],
+      "takeable": false,
+      "container": false,
+      "surface": false,
+      "open": false,
+      "transparent": false,
+      "treasure": false,
+      "size": 5,
+      "capacity": 0,
+      "discovery_points": 0,
+      "deposit_points": 0
+    },
+    "BRACELET": {
+      "name": "sapphire-encrusted bracelet",
+      "location": "GAS-ROOM",
+      "hidden": false,
+      "description": "You see a sapphire-encrusted bracelet.",
+      "readable_text": null,
+      "aliases": [
+        "bracelet",
+        "jewel",
+        "sapphire",
+        "treasure"
+      ],
+      "takeable": true,
+      "container": false,
+      "surface": false,
+      "open": false,
+      "transparent": false,
+      "treasure": true,
+      "size": 10,
+      "capacity": 0,
+      "discovery_points": 5,
+      "deposit_points": 5
+    },
+    "SCREWDRIVER": {
+      "name": "screwdriver",
+      "location": "MAINTENANCE-ROOM",
+      "hidden": false,
+      "description": "You see a screwdriver.",
+      "readable_text": null,
+      "aliases": [
+        "screwdriver",
+        "tool",
+        "tools",
+        "driver"
+      ],
+      "takeable": true,
+      "container": false,
+      "surface": false,
+      "open": false,
+      "transparent": false,
+      "treasure": false,
+      "size": 5,
+      "capacity": 0,
+      "discovery_points": 0,
+      "deposit_points": 0
+    },
+    "KEYS": {
+      "name": "skeleton key",
+      "location": "MAZE-5",
+      "hidden": false,
+      "description": "You see a skeleton key.",
+      "readable_text": null,
+      "aliases": [
+        "key"
+      ],
+      "takeable": true,
+      "container": false,
+      "surface": false,
+      "open": false,
+      "transparent": false,
+      "treasure": false,
+      "size": 10,
+      "capacity": 0,
+      "discovery_points": 0,
+      "deposit_points": 0
+    },
+    "SHOVEL": {
+      "name": "shovel",
+      "location": "SANDY-BEACH",
+      "hidden": false,
+      "description": "You see a shovel.",
+      "readable_text": null,
+      "aliases": [
+        "shovel",
+        "tool",
+        "tools"
+      ],
+      "takeable": true,
+      "container": false,
+      "surface": false,
+      "open": false,
+      "transparent": false,
+      "treasure": false,
+      "size": 15,
+      "capacity": 0,
+      "discovery_points": 0,
+      "deposit_points": 0
+    },
+    "COAL": {
+      "name": "small pile of coal",
+      "location": "DEAD-END-5",
+      "hidden": false,
+      "description": "You see a small pile of coal.",
+      "readable_text": null,
+      "aliases": [
+        "coal",
+        "pile",
+        "heap"
+      ],
+      "takeable": true,
+      "container": false,
+      "surface": false,
+      "open": false,
+      "transparent": false,
+      "treasure": false,
+      "size": 20,
+      "capacity": 0,
+      "discovery_points": 0,
+      "deposit_points": 0
+    },
+    "SCARAB": {
+      "name": "beautiful jeweled scarab",
+      "location": "SANDY-CAVE",
+      "hidden": true,
+      "description": "You see a beautiful jeweled scarab.",
+      "readable_text": null,
+      "aliases": [
+        "scarab",
+        "bug",
+        "beetle",
+        "treasure"
+      ],
+      "takeable": true,
+      "container": false,
+      "surface": false,
+      "open": false,
+      "transparent": false,
+      "treasure": true,
+      "size": 8,
+      "capacity": 0,
+      "discovery_points": 5,
+      "deposit_points": 5
+    },
+    "MACHINE-SWITCH": {
+      "name": "switch",
+      "location": "MACHINE-ROOM",
+      "hidden": false,
+      "description": "You see a switch.",
+      "readable_text": null,
+      "aliases": [
+        "switch"
+      ],
+      "takeable": false,
+      "container": false,
+      "surface": false,
+      "open": false,
+      "transparent": false,
+      "treasure": false,
+      "size": 5,
+      "capacity": 0,
+      "discovery_points": 0,
+      "deposit_points": 0
+    },
+    "WOODEN-DOOR": {
+      "name": "wooden door",
+      "location": "LIVING-ROOM",
+      "hidden": false,
+      "description": "You see a wooden door.",
+      "readable_text": "The engravings translate to \"This space intentionally left blank.\"",
+      "aliases": [
+        "door",
+        "lettering",
+        "writing"
+      ],
+      "takeable": false,
+      "container": false,
+      "surface": false,
+      "open": false,
+      "transparent": true,
+      "treasure": false,
+      "size": 5,
+      "capacity": 0,
+      "discovery_points": 0,
+      "deposit_points": 0
+    },
+    "SWORD": {
+      "name": "sword",
+      "location": "LIVING-ROOM",
+      "hidden": false,
+      "description": "Above the trophy case hangs an elvish sword of great antiquity.",
+      "readable_text": null,
+      "aliases": [
+        "sword",
+        "orcrist",
+        "glamdring",
+        "blade"
+      ],
+      "takeable": true,
+      "container": false,
+      "surface": false,
+      "open": false,
+      "transparent": false,
+      "treasure": false,
+      "size": 30,
+      "capacity": 0,
+      "discovery_points": 0,
+      "deposit_points": 0
+    },
+    "MAP": {
+      "name": "ancient map",
+      "location": "TROPHY-CASE",
+      "hidden": true,
+      "description": "In the trophy case is an ancient parchment which appears to be a map.",
+      "readable_text": "The map shows a forest with three clearings. The largest clearing contains a house. Three paths leave the large clearing. One of these paths, leading southwest, is marked \"To Stone Barrow\".",
+      "aliases": [
+        "parchment",
+        "map"
+      ],
+      "takeable": true,
+      "container": false,
+      "surface": false,
+      "open": false,
+      "transparent": false,
+      "treasure": false,
+      "size": 2,
+      "capacity": 0,
+      "discovery_points": 0,
+      "deposit_points": 0
+    },
+    "PEDESTAL": {
+      "name": "pedestal",
+      "location": "TORCH-ROOM",
+      "hidden": false,
+      "description": "You see a pedestal.",
+      "readable_text": null,
+      "aliases": [
+        "pedestal"
+      ],
+      "takeable": false,
+      "container": true,
+      "surface": true,
+      "open": true,
+      "transparent": false,
+      "treasure": false,
+      "size": 5,
+      "capacity": 30,
+      "discovery_points": 0,
+      "deposit_points": 0
+    },
+    "TORCH": {
+      "name": "torch",
+      "location": "PEDESTAL",
+      "hidden": false,
+      "description": "Sitting on the pedestal is a flaming torch, made of ivory.",
+      "readable_text": null,
+      "aliases": [
+        "torch",
+        "ivory",
+        "treasure"
+      ],
+      "takeable": true,
+      "container": false,
+      "surface": false,
+      "open": false,
+      "transparent": false,
+      "treasure": true,
+      "size": 20,
+      "capacity": 0,
+      "discovery_points": 14,
+      "deposit_points": 6
+    },
+    "GUIDE": {
+      "name": "tour guidebook",
+      "location": "DAM-LOBBY",
+      "hidden": false,
+      "description": "Some guidebooks entitled \"Flood Control Dam #3\" are on the reception desk.",
+      "readable_text": "\" Flood Control Dam #3 FCD#3 was constructed in year 783 of the Great Underground Empire to harness the mighty Frigid River. This work was supported by a grant of 37 million zorkmids from your omnipotent local tyrant Lord Dimwit Flathead the Excessive. This impressive structure is composed of 370,000 cubic feet of concrete, is 256 feet tall at the center, and 193 feet wide at the top. The lake created behind the dam has a volume of 1.7 billion cubic feet, an area of 12 million square feet, and a shore line of 36 thousand feet. The construction of FCD#3 took 112 days from ground breaking to the dedication. It required a work force of 384 slaves, 34 slave drivers, 12 engineers, 2 turtle doves, and a partridge in a pear tree. The work was managed by a command team composed of 2345 bureaucrats, 2347 secretaries (at least two of whom could type), 12,256 paper shufflers, 52,469 rubber stampers, 245,193 red tape processors, and nearly one million dead trees. We will now point out some of the more interesting features of FCD#3 as we conduct you on a guided tour of the facilities: 1) You start your tour here in the Dam Lobby. You will notice on your right that....",
+      "aliases": [
+        "guide",
+        "book",
+        "books",
+        "guidebooks"
+      ],
+      "takeable": true,
+      "container": false,
+      "surface": false,
+      "open": false,
+      "transparent": false,
+      "treasure": false,
+      "size": 5,
+      "capacity": 0,
+      "discovery_points": 0,
+      "deposit_points": 0
+    },
+    "TRUNK": {
+      "name": "trunk of jewels",
+      "location": "RESERVOIR",
+      "hidden": true,
+      "description": "Lying half buried in the mud is an old trunk, bulging with jewels.",
+      "readable_text": null,
+      "aliases": [
+        "trunk",
+        "chest",
+        "jewels",
+        "treasure"
+      ],
+      "takeable": true,
+      "container": false,
+      "surface": false,
+      "open": false,
+      "transparent": false,
+      "treasure": true,
+      "size": 35,
+      "capacity": 0,
+      "discovery_points": 15,
+      "deposit_points": 5
+    },
+    "TUBE": {
+      "name": "tube",
+      "location": "MAINTENANCE-ROOM",
+      "hidden": false,
+      "description": "There is an object which looks like a tube of toothpaste here.",
+      "readable_text": "---> Frobozz Magic Gunk Company <--- All-Purpose Gunk",
+      "aliases": [
+        "tube",
+        "tooth",
+        "paste"
+      ],
+      "takeable": true,
+      "container": true,
+      "surface": false,
+      "open": false,
+      "transparent": false,
+      "treasure": false,
+      "size": 5,
+      "capacity": 7,
+      "discovery_points": 0,
+      "deposit_points": 0
+    },
+    "PUTTY": {
+      "name": "viscous material",
+      "location": "TUBE",
+      "hidden": false,
+      "description": "You see a viscous material.",
+      "readable_text": null,
+      "aliases": [
+        "material",
+        "gunk"
+      ],
+      "takeable": true,
+      "container": false,
+      "surface": false,
+      "open": false,
+      "transparent": false,
+      "treasure": false,
+      "size": 6,
+      "capacity": 0,
+      "discovery_points": 0,
+      "deposit_points": 0
+    },
+    "ENGRAVINGS": {
+      "name": "wall with engravings",
+      "location": "ENGRAVINGS-CAVE",
+      "hidden": false,
+      "description": "There are old engravings on the walls here.",
+      "readable_text": "The engravings were incised in the living rock of the cave wall by an unknown hand. They depict, in symbolic form, the beliefs of the ancient Zorkers. Skillfully interwoven with the bas reliefs are excerpts illustrating the major religious tenets of that time. Unfortunately, a later age seems to have considered them blasphemous and just as skillfully excised them.",
+      "aliases": [
+        "wall",
+        "engravings",
+        "inscription"
+      ],
+      "takeable": false,
+      "container": false,
+      "surface": false,
+      "open": false,
+      "transparent": false,
+      "treasure": false,
+      "size": 5,
+      "capacity": 0,
+      "discovery_points": 0,
+      "deposit_points": 0
+    },
+    "OWNERS-MANUAL": {
+      "name": "ZORK owner's manual",
+      "location": "STUDIO",
+      "hidden": false,
+      "description": "Loosely attached to a wall is a small piece of paper.",
+      "readable_text": "Congratulations! You are the privileged owner of ZORK I: The Great Underground Empire, a self-contained and self-maintaining universe. If used and maintained in accordance with normal operating practices for small universes, ZORK will provide many months of trouble-free operation.",
+      "aliases": [
+        "manual",
+        "piece",
+        "paper"
+      ],
+      "takeable": true,
+      "container": false,
+      "surface": false,
+      "open": false,
+      "transparent": false,
+      "treasure": false,
+      "size": 5,
+      "capacity": 0,
+      "discovery_points": 0,
+      "deposit_points": 0
+    },
+    "WRENCH": {
+      "name": "wrench",
+      "location": "MAINTENANCE-ROOM",
+      "hidden": false,
+      "description": "You see a wrench.",
+      "readable_text": null,
+      "aliases": [
+        "wrench",
+        "tool",
+        "tools"
+      ],
+      "takeable": true,
+      "container": false,
+      "surface": false,
+      "open": false,
+      "transparent": false,
+      "treasure": false,
+      "size": 10,
+      "capacity": 0,
+      "discovery_points": 0,
+      "deposit_points": 0
+    },
+    "CONTROL-PANEL": {
+      "name": "control panel",
+      "location": "DAM-ROOM",
+      "hidden": false,
+      "description": "You see a control panel.",
+      "readable_text": null,
+      "aliases": [
+        "panel"
+      ],
+      "takeable": false,
+      "container": false,
+      "surface": false,
+      "open": false,
+      "transparent": false,
+      "treasure": false,
+      "size": 5,
+      "capacity": 0,
+      "discovery_points": 0,
+      "deposit_points": 0
+    },
+    "NEST": {
+      "name": "bird's nest",
+      "location": "UP-A-TREE",
+      "hidden": false,
+      "description": "Beside you on the branch is a small bird's nest.",
+      "readable_text": null,
+      "aliases": [
+        "nest"
+      ],
+      "takeable": true,
+      "container": true,
+      "surface": false,
+      "open": true,
+      "transparent": false,
+      "treasure": false,
+      "size": 5,
+      "capacity": 20,
+      "discovery_points": 0,
+      "deposit_points": 0
+    },
+    "EGG": {
+      "name": "jewel-encrusted egg",
+      "location": "NEST",
+      "hidden": false,
+      "description": "In the bird's nest is a large egg encrusted with precious jewels, apparently scavenged by a childless songbird. The egg is covered with fine gold inlay, and ornamented in lapis lazuli and mother-of-pearl. Unlike most eggs, this one is hinged and closed with a delicate looking clasp. The egg appears extremely fragile.",
+      "readable_text": null,
+      "aliases": [
+        "egg",
+        "treasure"
+      ],
+      "takeable": true,
+      "container": true,
+      "surface": false,
+      "open": false,
+      "transparent": false,
+      "treasure": true,
+      "size": 5,
+      "capacity": 6,
+      "discovery_points": 5,
+      "deposit_points": 5
+    },
+    "BAUBLE": {
+      "name": "beautiful brass bauble",
+      "location": "offstage",
+      "hidden": false,
+      "description": "You see a beautiful brass bauble.",
+      "readable_text": null,
+      "aliases": [
+        "bauble",
+        "treasure"
+      ],
+      "takeable": true,
+      "container": false,
+      "surface": false,
+      "open": false,
+      "transparent": false,
+      "treasure": true,
+      "size": 5,
+      "capacity": 0,
+      "discovery_points": 1,
+      "deposit_points": 1
+    },
+    "CANARY": {
+      "name": "golden clockwork canary",
+      "location": "EGG",
+      "hidden": false,
+      "description": "There is a golden clockwork canary nestled in the egg. It has ruby eyes and a silver beak. Through a crystal window below its left wing you can see intricate machinery inside. It appears to have wound down.",
+      "readable_text": null,
+      "aliases": [
+        "canary",
+        "treasure"
+      ],
+      "takeable": true,
+      "container": false,
+      "surface": false,
+      "open": false,
+      "transparent": false,
+      "treasure": true,
+      "size": 5,
+      "capacity": 0,
+      "discovery_points": 6,
+      "deposit_points": 4
+    }
+  }
+}
