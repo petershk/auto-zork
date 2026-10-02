@@ -1,9 +1,8 @@
 # Auto Zork
 
-Watch an AI play *Zork I*, or play it yourself. The game is a close adaptation of the 1980s text
-adventure: 110 rooms, 85 items, the classic puzzles, a troll to fight, a thief that wanders the
-underground, and 350 points to earn. A browser dashboard shows the transcript, a map, your inventory
-and, when an AI is playing, its reasoning and every action it takes.
+Watch AI agent play *Zork I*. The game is from the 1980s text
+adventure. The game runs in a browser dashboard shows the transcript, a map, your inventory
+and, when an agent is playing, its reasoning and every action it takes.
 
 - **Any major model.** OpenAI, Anthropic (Claude), Google (Gemini), xAI (Grok) and OpenRouter work out of the box, plus any OpenAI-compatible endpoint.
 - **Plays through MCP.** The game is exposed as 14 tools over the Model Context Protocol, so you can also connect your own MCP client.
@@ -14,7 +13,7 @@ and, when an AI is playing, its reasoning and every action it takes.
 ## Quick start
 
 You need [uv](https://docs.astral.sh/uv/getting-started/installation/). It installs the right Python
-(3.13 or newer) for you. Windows, macOS and Linux all work.
+(3.13 or newer) for you.
 
 ```sh
 git clone https://github.com/petershk/auto-zork.git
@@ -23,7 +22,7 @@ uv sync --locked
 uv run python web_app.py
 ```
 
-The terminal prints the address, `http://127.0.0.1:5000`, and your browser opens it. Set
+The terminal prints the address, `http://127.0.0.1:5000`, and opens your browser. Set
 `MAZE_NO_BROWSER=1` if you would rather open it yourself, and `MAZE_PORT` to change the port.
 Press Ctrl+C in the terminal to stop.
 
@@ -44,10 +43,10 @@ cd maze
 uv run python autoplay.py            # play it headless and report the result
 ```
 
-### Let an AI play
+### Let an Agent play
 
 1. Click **Configure agent**.
-2. Choose a **Provider**, paste your API key and click **Save API key locally**. It is written to `maze/.env`, which is never committed.
+2. Choose a **Provider**, paste your API key and click **Save API key locally**. It is written to `maze/.env`.
 3. Click **Load Models** and pick one (model names change often, so this lists what your key can use).
 4. Close the dialog and click **Run Agent**.
 
@@ -70,7 +69,7 @@ not available through its OpenAI-compatible endpoint, so Claude shows only what 
 | Other | `MAZE_AGENT_API_KEY` | Any OpenAI-compatible endpoint: enter its Base URL |
 
 Each key is only ever sent to its own provider, and the app remembers the last provider and model you
-used. You can also put keys in `maze/.env` by hand; `maze/.env.example` shows how. Costs, token counts, agent
+used. You can also put keys in `maze/.env`; `maze/.env.example` shows how. Costs, token counts, agent
 memory and the other dashboard details are in [maze/USAGE.md](maze/USAGE.md).
 
 ### Saving
@@ -88,22 +87,15 @@ The web app owns the game. Start it as above, then point any stdio MCP client at
 ## Status and limits
 
 - **Tested with.** Anthropic (Claude) and xAI (Grok) have been run live. OpenAI, Google (Gemini), OpenRouter and the
-  OpenAI reasoning summaries work against simulated responses in the tests but have not been run against the live
-  services yet. Reports are welcome. Model names change often, so use **Load Models** rather than trusting the defaults.
+  OpenAI reasoning summaries work against simulated responses in the tests but I haven't tried them yet.
+  Reports are welcome. Model names change often, so use **Load Models** rather than trusting the defaults.
 - **Platforms.** Developed on Windows. The tests also run on Linux in CI; macOS should work but is untested.
 - **Not implemented from the original game (yet).** Darkness, grues and the lamp running out; inflating the boat;
   the thief stealing from you and fighting properly; matches and candles burning out; coming back to life after a
-  death (a death ends the run until you restore a save); and a few small interactions. Troll combat, the trap door,
-  the dam, the Hades ritual and the thief's lair do follow the original. The exact rules are in
+  death (a death ends the run until you restore a save); and a few small interactions.
+
+  The exact rules are in
   [maze/PUZZLES.md](maze/PUZZLES.md) and [maze/ZORK_NOTES.txt](maze/ZORK_NOTES.txt).
-
-## Security and privacy
-
-- **Run it on your own computer.** The web app listens on `127.0.0.1` only and has no login, so anyone who can reach
-  the port can play, reset the game and start an agent with your saved key. Do not expose it to a network or the internet.
-- **Keys are stored as plain text** in `maze/.env`, which is ignored by git. A key is only ever sent to its own provider
-  and is never shown again by the page or its API. Saved games (`maze/saves/`) are ignored by git too.
-- **Agents cost money.** Every run calls a paid API; set a spending limit with your provider and watch the cost estimate.
 
 ## Tests
 
