@@ -42,8 +42,9 @@ clip can follow any other without a visible cut.
 7. `uv run python -m video.check_seams` scores each clip's first and last frames against its stills (SSIM) and
    lists anything under `SEAM_THRESHOLD`.
 
-8. `uv run python -m video.publish_media` uploads new pictures, clips and treasure layers to that bucket
-   (needs Cloudflare's `wrangler`, logged in to the account that owns it).
+8. `uv run python -m video.publish_media` uploads new pictures, clips and treasure layers to that bucket, with an
+   800-pixel JPEG copy of each picture in `assets/thumbs/` for galleries (needs Cloudflare's `wrangler`, logged in to
+   the account that owns it).
 
 Each step skips finished work, and a rerun of step 1 keeps prompts and images whose descriptions have not changed.
 
