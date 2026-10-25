@@ -73,6 +73,8 @@ def run(manifest, provider, edges, price, max_spend, workers=3, save=None, write
                 prompt=f"{edge.motion_prompt} {VIEWER} {STYLE}.", duration_s=edge.duration_s, audio=edge.audio)
             path = f"{CLIP_DIR}/{edge.id}__{n}.mp4"
             write(VIDEO_DIR / path, data)
+            # A remade clip's old original would otherwise be cropped back over the new download (normalize.py).
+            (VIDEO_DIR / path).with_suffix(".orig.mp4").unlink(missing_ok=True)
             clip.path, clip.seed, clip.status = path, seed, "generated"
             clip.first_frame_score = clip.last_frame_score = None
             log(f"made {edge.id} ({clip_seconds(edge, provider)} s)")

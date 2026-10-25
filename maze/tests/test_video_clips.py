@@ -58,6 +58,21 @@ class ClipGenerationTests(unittest.TestCase):
         edges, _ = gen_clips.select(over, ["west_of_house__to__north_of_house"])
         self.assertEqual(gen_clips.run(over, FakeVideo(), edges, lambda audio: 0.3, 1.0, log=lambda _: None), 1)
 
+    def test_a_remade_clip_drops_the_old_original(self):
+        folder = tempfile.TemporaryDirectory()
+        self.addCleanup(folder.cleanup)
+        root = Path(folder.name)
+        old = root / "assets/clips/west_of_house__to__north_of_house__1.orig.mp4"
+        old.parent.mkdir(parents=True)
+        old.write_bytes(b"old download")  # normalize.py would crop this back over the new clip
+        manifest = outside_manifest()
+        edges, _ = gen_clips.select(manifest, ["west_of_house__to__north_of_house"])
+        with patch.object(gen_clips, "VIDEO_DIR", root):
+            gen_clips.run(manifest, FakeVideo(), edges, lambda audio: 0.3, 100, workers=1,
+                          write=lambda p, d: p.write_bytes(d), log=lambda _: None)
+        self.assertFalse(old.exists())
+        self.assertEqual(old.with_name("west_of_house__to__north_of_house__1.mp4").read_bytes(), b"mp4")
+
     def test_problems_name_missing_pictures_and_prompts(self):
         manifest = outside_manifest()
         frames = {k.id: k for k in manifest.keyframes}

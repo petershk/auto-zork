@@ -1,5 +1,5 @@
 {
-  "spent_usd": 246.09460000000075,
+  "spent_usd": 267.4826000000008,
   "keyframes": [
     {
       "id": "west_of_house",
@@ -3407,12 +3407,12 @@
           "to": "clearing",
           "path": "assets/clips/east_of_house__d567e5__to__clearing__1.mp4",
           "provider": "fal:seedance-2.0",
-          "seed": 1720760576,
-          "first_frame_score": 0.959,
-          "last_frame_score": 0.965,
+          "seed": 1267622432,
+          "first_frame_score": 0.961,
+          "last_frame_score": 0.975,
           "fit": [
             1.0875,
-            0.0,
+            0.0025,
             0.005
           ],
           "normalized": true,
@@ -3538,13 +3538,13 @@
           "to": "east_of_house__d567e5",
           "path": "assets/clips/clearing__to__east_of_house__d567e5__1.mp4",
           "provider": "fal:seedance-2.0",
-          "seed": 1602075581,
-          "first_frame_score": 0.989,
-          "last_frame_score": 0.989,
+          "seed": 306277857,
+          "first_frame_score": 0.974,
+          "last_frame_score": 0.959,
           "fit": [
-            1.0263,
-            0.0,
-            0.0
+            1.0875,
+            0.0025,
+            0.005
           ],
           "normalized": true,
           "status": "generated"
@@ -3669,9 +3669,9 @@
           "to": "clearing",
           "path": "assets/clips/east_of_house__to__clearing__1.mp4",
           "provider": "fal:seedance-2.0",
-          "seed": 14992462,
-          "first_frame_score": 0.965,
-          "last_frame_score": 0.972,
+          "seed": 1660968691,
+          "first_frame_score": 0.964,
+          "last_frame_score": 0.975,
           "fit": [
             1.0863,
             0.0025,
@@ -3861,9 +3861,9 @@
           "to": "clearing",
           "path": "assets/clips/forest_3__to__clearing__1.mp4",
           "provider": "fal:seedance-2.0",
-          "seed": 58553869,
-          "first_frame_score": 0.955,
-          "last_frame_score": 0.954,
+          "seed": 965383092,
+          "first_frame_score": 0.958,
+          "last_frame_score": 0.961,
           "fit": [
             1.0875,
             0.005,
@@ -4273,13 +4273,13 @@
           "to": "forest_2",
           "path": "assets/clips/clearing__to__forest_2__1.mp4",
           "provider": "fal:seedance-2.0",
-          "seed": 368383746,
-          "first_frame_score": 0.986,
-          "last_frame_score": 0.987,
+          "seed": 213959309,
+          "first_frame_score": 0.952,
+          "last_frame_score": 0.954,
           "fit": [
-            1.0275,
-            0.0,
-            0.0
+            1.0888,
+            0.005,
+            0.0075
           ],
           "normalized": true,
           "status": "generated"
@@ -4305,9 +4305,9 @@
           "to": "forest_3",
           "path": "assets/clips/clearing__to__forest_3__1.mp4",
           "provider": "fal:seedance-2.0",
-          "seed": 982089053,
-          "first_frame_score": 0.969,
-          "last_frame_score": 0.973,
+          "seed": 1969646467,
+          "first_frame_score": 0.975,
+          "last_frame_score": 0.974,
           "fit": [
             1.0875,
             0.0025,
@@ -4337,13 +4337,13 @@
           "to": "east_of_house",
           "path": "assets/clips/clearing__to__east_of_house__1.mp4",
           "provider": "fal:seedance-2.0",
-          "seed": 659956396,
-          "first_frame_score": 0.965,
-          "last_frame_score": 0.963,
+          "seed": 1266854304,
+          "first_frame_score": 0.974,
+          "last_frame_score": 0.964,
           "fit": [
-            1.0875,
-            0.0025,
-            0.0075
+            1.0863,
+            0.0,
+            0.005
           ],
           "normalized": true,
           "status": "generated"
@@ -4401,16 +4401,16 @@
           "to": "mountains",
           "path": "assets/clips/forest_2__to__mountains__1.mp4",
           "provider": "fal:seedance-2.0",
-          "seed": 1286203614,
+          "seed": 643008043,
           "first_frame_score": 0.98,
-          "last_frame_score": 0.982,
+          "last_frame_score": 0.977,
           "fit": [
             1.09,
             0.0025,
             0.0075
           ],
           "normalized": true,
-          "status": "rejected"
+          "status": "generated"
         }
       ],
       "cosmetic": false
@@ -4433,12 +4433,12 @@
           "to": "clearing",
           "path": "assets/clips/forest_2__to__clearing__1.mp4",
           "provider": "fal:seedance-2.0",
-          "seed": 1400478059,
-          "first_frame_score": 0.965,
-          "last_frame_score": 0.95,
+          "seed": 1327051451,
+          "first_frame_score": 0.981,
+          "last_frame_score": 0.978,
           "fit": [
             1.09,
-            0.005,
+            0.0025,
             0.0075
           ],
           "normalized": true,
@@ -4584,16 +4584,16 @@
           "to": "forest_2",
           "path": "assets/clips/mountains__to__forest_2__1.mp4",
           "provider": "fal:seedance-2.0",
-          "seed": 939594786,
-          "first_frame_score": 0.981,
-          "last_frame_score": 0.979,
+          "seed": 1946124554,
+          "first_frame_score": 0.973,
+          "last_frame_score": 0.977,
           "fit": [
             1.0888,
             0.0025,
             0.0075
           ],
           "normalized": true,
-          "status": "rejected"
+          "status": "generated"
         }
       ],
       "cosmetic": false
@@ -17862,9 +17862,9 @@
           "to": "clearing",
           "path": "assets/clips/clearing__idle_1__1.mp4",
           "provider": "fal:seedance-2.0",
-          "seed": 1796147570,
-          "first_frame_score": 0.949,
-          "last_frame_score": 0.949,
+          "seed": 1415036288,
+          "first_frame_score": 0.96,
+          "last_frame_score": 0.961,
           "fit": [
             1.0875,
             0.005,
@@ -18246,16 +18246,16 @@
           "to": "mountains",
           "path": "assets/clips/mountains__idle_1__1.mp4",
           "provider": "fal:seedance-2.0",
-          "seed": 493076562,
-          "first_frame_score": 0.994,
-          "last_frame_score": 0.994,
+          "seed": 2000417353,
+          "first_frame_score": 0.992,
+          "last_frame_score": 0.992,
           "fit": [
             1.0275,
             0.0,
             0.0
           ],
           "normalized": true,
-          "status": "rejected"
+          "status": "generated"
         }
       ],
       "cosmetic": false
