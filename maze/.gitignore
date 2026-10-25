@@ -30,3 +30,6 @@ htmlcov/
 Thumbs.db
 *.log
 .claude/settings.local.json
+
+# Generated video assets (large; published to the auto-zork-media bucket with video.publish_media)
+video/assets/

@@ -17,14 +17,16 @@ from pathlib import Path
 from mcp import Client, StdioServerParameters
 
 from dotenv import load_dotenv, set_key
-from flask import Flask, jsonify, render_template_string, request
+from flask import Flask, jsonify, render_template_string, request, send_from_directory
 
 import maze
 import saved_games
 from context_memory import ContextMemory
 from agent import AgentConfig, GPTAgent, list_models, DEFAULT_SYSTEM_PROMPT
 import autoplay
+import commands
 from providers import PROVIDERS, find_api_key, key_env_name, model_env_name
+from video.scene import scene as video_scene, turns as video_turns
 
 ENV_FILE = Path(__file__).resolve().with_name(".env")
 load_dotenv(ENV_FILE)
@@ -111,6 +113,17 @@ def no_store_page(response):
     return response
 
 
+def _video_turn(command, clip=True):
+    """Tell the video layer a command ran, so the page can play its clip; call with _lock held."""
+    try:
+        if clip:
+            video_turns.after(maze._maze, command)
+        else:
+            video_turns.reset(maze._maze)
+    except Exception:  # noqa: BLE001 - pictures are optional; the game must keep working without them
+        logging.exception("video turn failed")
+
+
 @app.after_request
 def record_game_command(response):
     global _transcript_sequence
@@ -132,6 +145,7 @@ def record_game_command(response):
             output = "You are carrying:\n" + ("\n".join("  " + i["name"] for i in result.get("inventory", [])) or "  Nothing.")
         _transcript.append({"id": _transcript_sequence, "command": command, "text": output})
         del _transcript[:-300]
+        _video_turn(command, clip=path != "/api/reset")
     return response
 
 PAGE = """
@@ -169,7 +183,22 @@ PAGE = """
   #agent-identity.live { color: #dff6e4; background: #1f4a2e; border-color: #3f9a5c; }
   .autoplay { display: inline-flex; gap: 4px; align-items: center; margin-left: 10px; padding-left: 10px; border-left: 1px solid #435b72; }
   #autoplay-status { display: block; min-height: 1.4em; margin: 2px 0; color: #b8d8c2; }
+  .command-line { display: flex; gap: 6px; align-items: center; margin: 6px 0 2px; }
+  .command-line .prompt { font: 700 16px var(--font-mono); color: #7ddd91; }
+  #command-input { flex: 1; min-width: 0; font-family: var(--font-mono); font-size: 14px; background: #06100a; color: #a8f5b8; border: 1px solid #2f6b44; padding: 7px 9px; }
+  #command-input::placeholder { color: #5f8a6c; }
   #world-panel { grid-column: 1; grid-row: 1 / span 2; display: flex; flex-direction: column; }
+  #scene { position: relative; flex: none; width: min(100%, calc(52vh * 16 / 9)); aspect-ratio: 16 / 9; margin: 6px auto 8px; background: #05080b; border: 1px solid #2c3a48; border-radius: 6px; overflow: hidden; }
+  #scene > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: fill; opacity: 0; transition: opacity .6s ease; transform: scale(var(--zoom, 1)); }
+  #scene > img.shown { opacity: 1; }
+  #scene-layers { position: absolute; inset: 0; pointer-events: none; transform: scale(var(--zoom, 1)); }
+  #scene-video, #scene-idle { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: fill; opacity: 0; pointer-events: none; }
+  #scene-idle { transition: opacity .4s ease; }
+  #scene-idle.playing { opacity: 1; }
+  #scene-video.playing { opacity: 1; }
+  #scene-layers img { position: absolute; object-fit: contain; object-position: bottom center; filter: drop-shadow(0 2px 2px #0008); }
+  #scene-empty { position: absolute; inset: 0; margin: 0; display: grid; place-items: center; color: #6f8193; font-size: 13px; }
+  @media (prefers-reduced-motion: reduce) { #scene > img { transition: none; } }
   #map-panel { grid-column: 2; grid-row: 1; display: flex; flex-direction: column; }
   #inventory-panel { grid-column: 2; grid-row: 2; }
   #agent-panel { grid-column: 3; grid-row: 1 / span 2; display: flex; flex-direction: column; }
@@ -283,7 +312,13 @@ PAGE = """
   <section class="panel" id="world-panel">
   <div class="panel-heading"><h3>Adventure</h3><span id="current-room"></span></div>
   <div class="save-bar"><input id="save-name" value="quick-save" maxlength="48" aria-label="Save name" autocomplete="off"><button id="quick-save" autocomplete="off" onclick="saveGame()" title="Save now (Ctrl+S), even while the agent is running">Save game</button><small id="save-status" role="status">Save any time with Ctrl+S, even while the agent runs.</small></div>
+  <div id="scene" aria-live="off"><img id="scene-a" alt=""><img id="scene-b" alt=""><video id="scene-idle" muted playsinline preload="auto"></video><div id="scene-layers"></div><video id="scene-video" playsinline preload="auto"></video><p id="scene-empty">No picture of this place yet.</p></div>
   <div id="transcript" role="log" aria-label="Game transcript" aria-live="polite"></div>
+  <form id="command-line" class="command-line" onsubmit="sendCommand(event)" autocomplete="off">
+    <span class="prompt" aria-hidden="true">&gt;</span>
+    <input id="command-input" aria-label="Type a command" placeholder="Type a command: north, take lamp, open window... (help)" spellcheck="false" autocapitalize="off" maxlength="200">
+    <button id="command-go" type="submit">Go</button>
+  </form>
   <details id="room-details"><summary>Current room & objective</summary>
   <h3 id="room-name"></h3>
   <p id="room-description"></p>
@@ -608,8 +643,107 @@ async function refresh() {
   panel.append(verbs, target, item, button, features);
 }
 
+// The room's picture: the next image loads in the hidden layer and fades in over the current one. Objects shown in
+// fixtures (treasures in the trophy case) are drawn on top at their fixed slots once the picture is showing.
+function renderLayers(layers) {
+  const holder = document.getElementById('scene-layers');
+  holder.replaceChildren(...(layers || []).map(layer => {
+    const img = document.createElement('img');
+    img.src = layer.src; img.alt = layer.id;
+    Object.assign(img.style, {left: layer.left + '%', top: layer.top + '%', width: layer.width + '%', height: layer.height + '%'});
+    return img;
+  }));
+}
+
+// Each turn's clip plays once over the picture (its first frame is the old picture, its last the new one), then the
+// picture and its layers show. Clips with several segments play back to back.
+let playedClip = null;
+let clipStarting = false;
+// Play a turn's clip over the picture. The old picture stays in view until the clip's first frame is playing (the clip
+// starts exactly on it), then onStart swaps in the new picture underneath; when the clip ends the new picture shows.
+function playClip(clip, onStart) {
+  const video = document.getElementById('scene-video');
+  const layers = document.getElementById('scene-layers');
+  const sources = [...clip.sources];
+  let started = false;
+  const start = () => {
+    if (started) return;
+    started = true; clipStarting = false;
+    video.classList.add('playing'); layers.hidden = true;
+    stopIdle();
+    onStart();
+  };
+  const next = () => {
+    if (!sources.length) { start(); video.classList.remove('playing'); layers.hidden = false; clipPlaying = false; playIdle(lastScene); return; }
+    video.src = sources.shift();
+    video.muted = document.getElementById('sound-muted').checked;
+    video.volume = Number(document.getElementById('sound-volume').value) / 100;
+    video.play().catch(() => { video.muted = true; video.play().catch(next); });
+  };
+  clipStarting = true; clipPlaying = true;
+  video.onplaying = start;
+  video.onended = next;
+  video.onerror = next;
+  next();
+}
+
+// Ambient loops for the picture on show: silent, rotating through the variants, paused while a clip plays.
+let clipPlaying = false, idleKey = '', lastScene = null;
+function stopIdle() {
+  const idle = document.getElementById('scene-idle');
+  idleKey = ''; idle.classList.remove('playing'); idle.pause(); idle.removeAttribute('src'); idle.load();
+}
+function playIdle(scene) {
+  const sources = (scene && scene.image && scene.idle) || [];
+  const key = JSON.stringify([scene && scene.keyframe, sources]);
+  if (clipPlaying || key === idleKey) return;
+  stopIdle();
+  if (!sources.length) return;
+  idleKey = key;
+  const idle = document.getElementById('scene-idle');
+  let turn = 0;
+  const next = () => { idle.src = sources[turn++ % sources.length]; idle.play().catch(() => {}); };
+  idle.onplaying = () => idle.classList.add('playing');
+  idle.onended = next;
+  next();
+}
+
+function renderScene(scene) {
+  lastScene = scene;
+  const box = document.getElementById('scene');
+  if (scene && scene.zoom) box.style.setProperty('--zoom', scene.zoom);
+  const newClip = scene && scene.clip && playedClip !== null && scene.clip.seq !== playedClip;
+  if (scene) playedClip = scene.clip ? scene.clip.seq : 0;
+  if (newClip) { playClip(scene.clip, () => showPicture(scene)); return; }
+  if (!clipStarting) { showPicture(scene); playIdle(scene); }
+}
+
+function showPicture(scene) {
+  const box = document.getElementById('scene');
+  const url = scene && scene.image;
+  const layers = (scene && scene.layers) || [];
+  const layerKey = JSON.stringify(layers.map(l => l.id));
+  if (box.dataset.url === (url || '')) {
+    if (box.dataset.layers !== layerKey) { box.dataset.layers = layerKey; renderLayers(layers); }
+    return;
+  }
+  box.dataset.url = url || '';
+  box.dataset.layers = layerKey;
+  renderLayers([]);
+  const front = box.querySelector(':scope > img.shown'), back = [...box.querySelectorAll(':scope > img')].find(i => i !== front);
+  document.getElementById('scene-empty').hidden = !!url;
+  if (!url) { if (front) front.classList.remove('shown'); return; }
+  back.onload = () => {
+    if (box.dataset.url !== url) return;
+    back.classList.add('shown'); if (front) front.classList.remove('shown');
+    renderLayers(layers);
+  };
+  back.alt = scene.keyframe; back.src = url;
+}
+
 function render(state) {
   lastState = state;
+  renderScene(state.scene);
   const trophy = state.trophy_case;
   if (trophy) {
     document.getElementById('trophy-progress').textContent = `${trophy.count}/${trophy.total} treasures stored | ${trophy.points}/${trophy.max_points} deposit points`;
@@ -832,6 +966,27 @@ function renderItems(state) {
   panel('inventory-items', state.inventory, true);
 }
 
+const commandHistory = [];
+let commandHistoryIndex = 0;
+async function sendCommand(event) {
+  event.preventDefault();
+  const input = document.getElementById('command-input');
+  const text = input.value.trim();
+  if (!text) return;
+  commandHistory.push(text); commandHistoryIndex = commandHistory.length;
+  input.value = '';
+  try {
+    await fetch('/api/command', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({text})});
+  } catch (_) { /* the next refresh shows the current state either way */ }
+  await refresh();
+  input.focus();
+}
+document.getElementById('command-input').addEventListener('keydown', event => {
+  if (event.key !== 'ArrowUp' && event.key !== 'ArrowDown') return;
+  event.preventDefault();
+  commandHistoryIndex = Math.max(0, Math.min(commandHistory.length, commandHistoryIndex + (event.key === 'ArrowUp' ? -1 : 1)));
+  event.target.value = commandHistory[commandHistoryIndex] || '';
+});
 async function itemAction(action, item, container) {
   const body = {item};
   if (action === 'put') body.container = container || document.getElementById('put-destination').value;
@@ -1142,10 +1297,21 @@ def get_state():
         state = maze.look()
         state["grid"] = maze.grid_view()
         state["trophy_case"] = maze.trophy_case_progress()
+        try:
+            state["scene"] = video_scene(maze._maze)
+        except Exception:  # noqa: BLE001 - pictures are optional; the game must keep working without them
+            logging.exception("video scene failed")
+            state["scene"] = None
         if not _transcript:
             _transcript.append({"id": 0, "command": "", "text": "ZORK\nThe Great Underground Empire\n\nWelcome, adventurer. Explore the world yourself or select Run Agent to begin."})
         state["transcript"] = list(_transcript)
     return jsonify(state)
+
+
+@app.get("/video/assets/<path:name>")
+def video_asset(name):
+    """Keyframe images and clips made by the video scripts (maze/video/assets)."""
+    return send_from_directory(Path(__file__).with_name("video") / "assets", name, max_age=3600)
 
 
 @app.post("/api/move")
@@ -1425,6 +1591,7 @@ def _run_autoplay(delay: float) -> None:
                 _transcript_sequence += 1
                 _transcript.append({"id": _transcript_sequence, "command": autoplay.command_text(step), "text": _game_text(result)})
                 del _transcript[:-300]
+                _video_turn(autoplay.command_text(step))
                 _autoplay.update(step=number, label=autoplay.LABELS[number - 1], score=world._score())
                 if result.get("success", True) is False:
                     error = f"{autoplay.command_text(step)!r} did not work: {result.get('error')}"
@@ -1460,6 +1627,32 @@ def post_autoplay_start():
     threading.Thread(target=_run_autoplay, args=(AUTOPLAY_DELAYS[speed],), daemon=True).start()
     with _lock:
         return jsonify(dict(_autoplay))
+
+
+@app.post("/api/command")
+def post_command():
+    """Run a line of typed text ("take lamp", "north") as the matching game action."""
+    global _transcript_sequence
+    body = request.get_json(silent=True)
+    text = body.get("text") if isinstance(body, dict) else None
+    if not isinstance(text, str) or not text.strip() or len(text) > 200:
+        return jsonify({"success": False, "error": "Type a command of 1 to 200 characters."}), 400
+    with _lock:
+        if _agent_state["running"]:
+            return jsonify({"success": False, "error": "Stop the agent before typing commands."}), 409
+        if _autoplay["running"]:
+            return jsonify({"success": False, "error": "Stop auto play before typing commands."}), 409
+        result = commands.execute(maze._maze, text)
+        if result.get("command_tool") == "hint" and result.get("hint"):
+            _log_hint("player", result["hint"])
+        output = _game_text(result)
+        if result.get("command_tool") == "inventory":
+            output = "You are carrying:\n" + ("\n".join("  " + i["name"] for i in result.get("inventory", [])) or "  Nothing.")
+        _transcript_sequence += 1
+        _transcript.append({"id": _transcript_sequence, "command": text.strip(), "text": output})
+        del _transcript[:-300]
+        _video_turn(text.strip())
+    return jsonify(result)
 
 
 @app.post("/api/autoplay/stop")
@@ -1514,6 +1707,7 @@ def post_restore():
             _transcript.clear()
             _transcript_sequence += 1
             _transcript.append({"id": _transcript_sequence, "command": "restore " + name, "text": _game_text(world.look())})
+            _video_turn("", clip=False)
         return jsonify({"restored": True})
     except (OSError, ValueError, TypeError, KeyError, RecursionError):
         return jsonify({"error": "Could not restore this save. The file may be missing, incompatible, or invalid."}), 400

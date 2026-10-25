@@ -406,20 +406,29 @@ class Maze(PuzzleWorld, CombatWorld):
         return self._item_action("close", item)
 
     def _fixture(self, query, action=None):
-        """Scene feature named by query here, when no item answers to that name."""
-        if not self.puzzles or self._item_here(query):
+        """Scene feature named by query here, when no item answers to that name.
+
+        Opening is the exception: a fixture that also exists as a plain, non-container item (the trap
+        door) is still opened through its puzzle action, since the item itself cannot be opened."""
+        if not self.puzzles:
             return None
         feature = " ".join(query.strip().lower().replace("-", " ").split()).removeprefix("the ")
         feature = "trapdoor" if feature == "trap door" else feature
-        return feature if any(t == feature and (action is None or a == action)
-                              for a, t, _ in SCENES.get(self.position, [])) else None
+        if not any(t == feature and (action is None or a == action) for a, t, _ in SCENES.get(self.position, [])):
+            return None
+        found = self._matching_item(query)
+        if found == "ambiguous":
+            return None
+        if found and not (action == "open" and not self.items[found]["container"]):
+            return None
+        return feature
 
-    def _item_here(self, query):
+    def _matching_item(self, query):
+        """The item id a name refers to here, 'ambiguous' if several do, or None."""
         try:
-            self._find_item(query)
-            return True
+            return self._find_item(query)
         except ValueError as exc:
-            return "Ambiguous" in str(exc)
+            return "ambiguous" if "Ambiguous" in str(exc) else None
 
     def put(self, item: str, container: str):
         return self._item_action("put", item, container)

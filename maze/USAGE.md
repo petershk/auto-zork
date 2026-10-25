@@ -5,6 +5,13 @@ game's rules, see PUZZLES.md and ZORK_NOTES.txt.
 
 ## Playing, saving and auto play
 
+**Typing commands.** The line under the transcript understands plain English: movement (`north`, `n`, `go west`,
+`in`), `look`, `inventory` (`i`), `score`, `wait` (`z`), `hint`, and actions on things (`take lamp`, `drop sword`,
+`examine map`, `read book`, `open window`, `close case`, `put egg in case`, `attack troll with sword`,
+`give egg to thief`, `unlock grate with keys`, `say odysseus`, `pray`). Item names or IDs both work, and words like
+"the" are ignored. Press the up and down arrows to bring back earlier commands. The line is turned off while an
+agent or Auto play is running. It uses the same actions as the buttons, so typing and clicking behave identically.
+
 Typing sounds begin after a browser interaction. Volume controls both typing and score sounds; Mute silences both. The first screen welcomes the player without issuing a LOOK command. During an agent run, Stop Agent, Give Hint, Save game (Ctrl+S) and the sound controls remain available; other game and configuration controls are disabled. Restoring a save needs the agent stopped. An `autosave` slot is written whenever an agent run ends.
 
 Press **Auto play** to watch a scripted perfect run (see the top-level README). It starts a new game, locks the

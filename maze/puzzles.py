@@ -166,6 +166,14 @@ class PuzzleWorld:
         return {"success": True, "hint": text, **self.look()}
 
     def room_description(self):
+        text = self.scenery_description()
+        if self.thief_present():
+            text += " A suspicious thief carrying a large bag watches you closely."
+        return text
+
+    def scenery_description(self, room=None):
+        """The room as it currently looks, without passing characters such as the thief (the video keyframe)."""
+        room = room or self.position
         descriptions = {
             "EAST-OF-HOUSE": "Behind the white house is a small kitchen window, slightly ajar.",
             "KITCHEN": "You are in the kitchen of the white house. A table stands here. A doorway leads west and stairs lead upward. A window faces the yard.",
@@ -182,18 +190,27 @@ class PuzzleWorld:
             "ENTRANCE-TO-HADES": "A supernatural barrier and restless spirits guard the entrance to the Land of the Dead.",
             "BAT-ROOM": "A large bat hangs from the ceiling of this mine chamber.",
         }
-        text = descriptions.get(self.position, self.rooms[self.position]["description"])
-        if self.position == "TROLL-ROOM":
+        text = descriptions.get(room, self.rooms[room]["description"])
+        if room == "TROLL-ROOM":
             if self.troll_strength == 0:
                 text = "The troll is gone. The passages through this chamber are clear."
             elif self.troll_strength < 0:
                 text = "An unconscious troll is sprawled on the floor. The passages are open."
-        if self.position == "EAST-OF-HOUSE" and "KITCHEN-WINDOW" in self.flags:
+        if room == "EAST-OF-HOUSE" and "KITCHEN-WINDOW" in self.flags:
             text = "Behind the white house is an open kitchen window."
-        if self.position == "LIVING-ROOM" and "rug" in self.flags:
+        if room == "CYCLOPS-ROOM":
+            if "MAGIC-FLAG" in self.flags:
+                text = "The cyclops is gone. Where the east wall stood is a ragged, cyclops-sized opening. A staircase leads upward."
+            elif "CYCLOPS-FLAG" in self.flags:
+                text = "An enormous cyclops lies asleep at the foot of the staircase, snoring loudly. A staircase leads upward."
+        if room == "GRATING-CLEARING" and "leaves" in self.flags:
+            text = ("You are in a clearing. The leaves are swept aside from an open grating that leads down into darkness."
+                    if "GRATE" in self.flags else
+                    "You are in a clearing. The leaves are swept aside, revealing a metal grating set into the ground.")
+        if room == "LIVING-ROOM" and "MAGIC-FLAG" in self.flags:
+            text = text.replace("a nailed-shut door to the west", "an old door to the west with a cyclops-sized hole smashed through it")
+        if room == "LIVING-ROOM" and "rug" in self.flags:
             text += " A trapdoor is exposed beneath the moved rug."
-        if self.thief_present():
-            text += " A suspicious thief carrying a large bag watches you closely."
         return text
 
     def gate_error(self, direction):

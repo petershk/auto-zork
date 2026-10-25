@@ -28,7 +28,9 @@ Press Ctrl+C in the terminal to stop.
 
 ### Play it yourself
 
-No key or account is needed. Use the exit buttons, the **Interact with this room** panel and the
+No key or account is needed. Type commands on the line under the transcript (`north`, `take lamp`,
+`open window`, `put egg in case`, `attack troll with sword`; type `help` for the list, and use the up and down
+arrows to repeat earlier ones), or use the exit buttons, the **Interact with this room** panel and the
 inventory. **Ask for hint** nudges you toward your next goal, and the score and rank are at the top.
 
 ### Watch a perfect run
